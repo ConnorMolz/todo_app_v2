@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {createClient, Session} from "@supabase/supabase-js";
+import NavBar from "../Components/NavBar.tsx";
 
 const supabase = createClient('https://jwxjbmsorwybofnzlvrh.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp3eGpibXNvcnd5Ym9mbnpsdnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQwMDM2NTIsImV4cCI6MjAzOTU3OTY1Mn0.3t4P6liovQTg5p1eg8KKzLFYyswzN8gizi9QBEl8NQw')
 
@@ -17,7 +18,8 @@ const Home = () =>{
     }
 
     return(
-        <div>
+        <div className="bg-base-100">
+            <NavBar />
             <p>You are logged in as {session?.user.email}</p>
             <div>
                 <button className="btn" onClick={logout}>Button</button>
