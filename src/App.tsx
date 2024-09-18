@@ -9,8 +9,10 @@ const supabase = createClient('https://jwxjbmsorwybofnzlvrh.supabase.co', 'eyJhb
 
 export default function App() {
     const [session, setSession] = useState<Session | null>(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        setLoading(true)
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session)
         })
@@ -20,14 +22,20 @@ export default function App() {
         } = supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session)
         })
-
+        setLoading(false)
         return () => subscription.unsubscribe()
     }, [])
 
-    if (!session) {
-        return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />)
+    if(loading){
+        return (
+            <div className="skeleton h-32 w-32"></div>
+        )
+    }
+
+    if (session && !loading) {
+        return (<Home></Home>)
     }
     else {
-        return (<Home></Home>)
+        return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />)
     }
 }
