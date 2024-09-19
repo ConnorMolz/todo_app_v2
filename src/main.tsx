@@ -15,6 +15,10 @@ const router = createBrowserRouter([
     {
         path: "/create",
         element: <CreateTodo />,
+    },
+    {
+        path: "/edit/:id",
+        element: <div/>,
     }
 ])
 
