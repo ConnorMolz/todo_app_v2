@@ -1,6 +1,8 @@
+import {Link} from "react-router-dom";
+
 const NavBar = () =>{
     return (
-        <div className="navbar">
+        <div className="navbar bg-base-200">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -20,15 +22,15 @@ const NavBar = () =>{
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li><a href="/">Home</a></li>
-                        <li><a>Add Todo</a></li>
+                        <li><Link to={"/"}>Home</Link></li>
+                        <li><Link to={"/create"}>Add Todo</Link></li>
                         <li><a>All Todos</a></li>
                         <li><a>Logout</a></li>
                     </ul>
                 </div>
             </div>
             <div className="navbar-center">
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <Link to={"/"} className="btn btn-ghost text-xl">Todo App</Link>
             </div>
             <div className="navbar-end">
                 <button className="btn btn-ghost btn-circle">
