@@ -1,8 +1,7 @@
 import './App.css'
 import { useState, useEffect } from 'react'
 import { Session } from '@supabase/supabase-js'
-import { Auth } from '@supabase/auth-ui-react'
-import { ThemeSupa } from '@supabase/auth-ui-shared'
+import Auth from "./Pages/Auth.tsx";
 import Home from "./Pages/Home.tsx";
 import { supabase } from "./lib/supabase.ts";
 
@@ -35,6 +34,9 @@ export default function App() {
         return (<Home></Home>)
     }
     else {
-        return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />)
+        return (
+            //<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />)
+            <Auth />
+        )
     }
 }
