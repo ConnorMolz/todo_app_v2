@@ -6,6 +6,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import CreateTodo from "./Pages/CreateTodo.tsx";
+import EditTodo from "./Pages/EditTodo.tsx";
 
 const router = createBrowserRouter([
     {
@@ -17,8 +18,8 @@ const router = createBrowserRouter([
         element: <CreateTodo />,
     },
     {
-        path: "/edit/:id",
-        element: <div/>,
+        path: "/edit/:todo_id",
+        element: <EditTodo />,
     }
 ])
 
