@@ -59,15 +59,24 @@ const Home = () =>{
             <div className="flex-1 justify-center py-12">
                 {
                     todos.map((todo) => (
-                        <Link to={`/edit/${todo.id}`} >
-                            <div className='flex-row justify-between bg-neutral-600 p-5 m-5 rounded-lg'>
-                                <div>
-                                    <p className='text-neutral-100 text-xl'>{todo.todo}</p>
-                                    <p className='text-neutral-300'>{new Date(todo.created_at).toLocaleString()}</p>
+                        <div className='flex-row justify-between bg-neutral-600 p-5 m-5 rounded-lg'>
+                            <Link to={`/edit/${todo.id}`}>
+                                <div className=''>
+                                    <div>
+                                        <p className='text-neutral-100 text-xl'>{todo.todo}</p>
+                                        <p className='text-neutral-300'>{new Date(todo.created_at).toLocaleString()}</p>
+                                    </div>
                                 </div>
-                                <button title="Done" onClick={() => { markAsDone(todo.id)}} />
-                            </div>
-                        </Link>
+                            </Link>
+                            <button
+                                className='btn btn-neutral '
+                                title="Done"
+                                onClick={() => {
+                                markAsDone(todo.id)}}
+                            >
+                                Done
+                            </button>
+                        </div>
                     ))
                 }
             </div>
