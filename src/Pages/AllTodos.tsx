@@ -35,19 +35,9 @@ const AllTodos = () =>{
 
     }
 
-
-
-    function logout(){
-        pocket_base.authStore.clear();
-    }
-
     return(
         <div className="bg-base-100">
             <NavBar />
-            <p>You are logged in as {}</p>
-            <div>
-                <button className="btn" onClick={ logout }>Button</button>
-            </div>
             <div className="flex-1 justify-center py-12">
                 {
                     //@ts-ignore
