@@ -24,7 +24,7 @@ const Home = () =>{
     async function getTodos() {
         if(!session)setTimeout(() => getTodos(), 1000);
         if(!session) return;
-        const queryFilter = "user_id = \"" + session.id + "\"";
+        const queryFilter = "user_id = \"" + session.id + "\" && done = false";
         const data = await pocket_base.collection('todos').getFullList(
             {
                 filter: queryFilter,
