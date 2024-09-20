@@ -82,7 +82,7 @@ const editTodo = () =>{
     return(
         <div className="bg-base-100">
             <NavBar/>
-            <form onSubmit={updateTodo}>
+            <form>
                 <div className="flex justify-center py-5">
                     <input
                         required={true}
@@ -106,13 +106,16 @@ const editTodo = () =>{
                         }}
                     />
                 </div>
-                <div className="flex justify-center">
-                    <button className="btn btn-neutral">Update Todo</button>
+                <div className="flex justify-center py-5">
+                    <button className="btn btn-neutral px-5 mx-2" onClick={updateTodo}>Update Todo</button>
+                    <Link className="btn btn-neutral px-5 mx-2" to={"/"}>Cancel</Link>
+                    { !done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoDone}>Set Done</button>}
+                    { done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoUndone}>Set Undone</button>}
                 </div>
             </form>
-            <Link className="btn btn-neutral" to={"/"}>Cancel</Link>
-            { !done && <button className="btn btn-neutral" onClick={setTodoDone}>Set Done</button>}
-            { done && <button className="btn btn-neutral" onClick={setTodoUndone}>Set Undone</button>}
+            <div className="justify-center">
+
+            </div>
         </div>
     )
 }
