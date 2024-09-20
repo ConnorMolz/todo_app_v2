@@ -3,6 +3,7 @@ import { useState } from "react";
 import LogInHeader from "../Components/LogInHeader.tsx";
 import { invoke } from "@tauri-apps/api/core";
 import { supabase } from "../lib/supabase.ts";
+import { pocket_base } from "../lib/pocket_base.ts";
 
 const Auth = () =>{
 
@@ -13,13 +14,18 @@ const Auth = () =>{
     async function signInWithEmail(e:any) {
         e.preventDefault();
 
-        const { error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password,
-        });
-        if ( error ){
-            invoke("log_in_console", { text: error.message, text2:"singInWithEmail" } ).then();
-        }
+        //const { error } = await supabase.auth.signInWithPassword({
+            //email: email,
+            //password: password,
+        //});
+        await pocket_base.collection("users").authWithPassword(
+            email,
+            password,
+        );
+
+        // @ts-ignore
+        invoke("log_in_console", {text:pocket_base.authStore.model.id, text2:"Test"}).then();
+
     }
 
     return (
