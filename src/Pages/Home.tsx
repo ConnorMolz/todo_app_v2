@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import NavBar from "../Components/NavBar.tsx";
 import { Link } from 'react-router-dom';
-import { invoke } from "@tauri-apps/api/core";
-import { supabase } from "../lib/supabase.ts";
 import {pocket_base} from "../lib/pocket_base.ts";
 import {AuthModel, RecordModel} from "pocketbase";
 
@@ -32,24 +30,12 @@ const Home = () =>{
                 filter: queryFilter,
             }
         );
-        invoke("log_in_console", {text:data, text2:"data"});
         //@ts-ignore   TODO: update data type later in useState
         setTodos(data);
 
     }
 
-    function markAsDone(id: any) {
-        supabase.from('todos').update({ done: true }).eq('id', id).then(({ data, error }) => {
-            if (error) {
-                invoke( "log_in_console", { text: error.message, text2:"markAsDone" } ).then();
-                return;
-            }
-            console.log(data);
-            getTodos().then();
 
-        });
-
-    }
 
     function logout(){
         pocket_base.authStore.clear();
@@ -71,18 +57,11 @@ const Home = () =>{
                                 <div className=''>
                                     <div>
                                         <p className='text-neutral-100 text-xl'>{todo.todo_title}</p>
-                                        <p className='text-neutral-300'>{new Date(todo.created_at).toLocaleString()}</p>
+                                        <p className='text-neutral-300'>{new Date(todo.created).toLocaleString()}</p>
                                     </div>
                                 </div>
                             </Link>
-                            <button
-                                className='btn btn-neutral '
-                                title="Done"
-                                onClick={() => {
-                                markAsDone(todo.id)}}
-                            >
-                                Done
-                            </button>
+
                         </div>
                     ))
                 }
