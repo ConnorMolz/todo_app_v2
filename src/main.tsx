@@ -8,6 +8,7 @@ import {
 import CreateTodo from "./Pages/CreateTodo.tsx";
 import EditTodo from "./Pages/EditTodo.tsx";
 import Home from "./Pages/Home.tsx";
+import AllTodos from "./Pages/AllTodos.tsx";
 
 const router = createBrowserRouter([
     {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
     {
         path:"/Home",
         element: <Home />,
+    },
+    {
+        path:"/Home/all",
+        element: <AllTodos />
     },
     {
         path: "/create",

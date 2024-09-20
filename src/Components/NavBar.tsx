@@ -33,7 +33,7 @@ const NavBar = () =>{
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                         <li><Link to={ "/" }>Home</Link></li>
                         <li><Link to={ "/create" }>Add Todo</Link></li>
-                        <li><a>All Todos</a></li>
+                        <li><Link to={ "/Home/all"}>All Todos</Link></li>
                         <li><button onClick={ logout }>Logout</button></li>
                     </ul>
                 </div>
