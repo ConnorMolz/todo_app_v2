@@ -1,6 +1,6 @@
 import NavBar from "../Components/NavBar.tsx";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
 
@@ -10,6 +10,7 @@ const editTodo = () =>{
     const [ todoDescription, setTodoDescription ] = useState('');
     const [ table, setTable ] = useState();
     const [ session, setSession ] = useState<AuthModel | null>(null);
+    const [ done, setDone ] = useState(false);
     const navigate = useNavigate();
     const { todo_id } = useParams();
 
@@ -30,11 +31,11 @@ const editTodo = () =>{
         setTodoTitle(data.todo_title);
         setTodoDescription(data.todo_description);
         setTable(data.table);
+        setDone(data.done);
 
     }
 
     const updateTodo = async (e:any) =>{
-        e.preventDefault();
         e.preventDefault();
         if(!session)return;
         if(!todo_id) return;
@@ -43,13 +44,39 @@ const editTodo = () =>{
             "todo_title": todoTitle,
             "todo_description": todoDescription,
             "user_id": session.id,
-            "done": false,
+            "done": done,
             "table": table
         }
 
         pocket_base.collection("todos").update(todo_id, data);
         navigate("/");
 
+    }
+
+    async function setStatus(newStatus:boolean){
+        if(!session)return;
+        if(!todo_id) return;
+        //@ts-ignore
+        const data = {
+            "todo_title": todoTitle,
+            "todo_description": todoDescription,
+            "user_id": session.id,
+            "done": newStatus,
+            "table": table
+        }
+
+        pocket_base.collection("todos").update(todo_id, data);
+        navigate("/");
+    }
+
+    function setTodoDone(e:any){
+        e.preventDefault();
+        setStatus(true).then;
+    }
+
+    function setTodoUndone(e:any){
+        e.preventDefault();
+        setStatus(false).then;
     }
 
     return(
@@ -83,6 +110,9 @@ const editTodo = () =>{
                     <button className="btn btn-neutral">Update Todo</button>
                 </div>
             </form>
+            <Link className="btn btn-neutral" to={"/"}>Cancel</Link>
+            { !done && <button className="btn btn-neutral" onClick={setTodoDone}>Set Done</button>}
+            { done && <button className="btn btn-neutral" onClick={setTodoUndone}>Set Undone</button>}
         </div>
     )
 }
