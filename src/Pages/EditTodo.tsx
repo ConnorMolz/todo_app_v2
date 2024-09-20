@@ -1,53 +1,54 @@
 import NavBar from "../Components/NavBar.tsx";
-import {useEffect, useState} from "react";
-import {Session} from "@supabase/supabase-js";
-import {useNavigate, useParams} from "react-router-dom";
-import {supabase} from "../lib/supabase.ts";
-import {invoke} from "@tauri-apps/api/core";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { pocket_base } from "../lib/pocket_base.ts";
+import { AuthModel } from "pocketbase";
 
 const editTodo = () =>{
 
     const [ todoTitle, setTodoTitle ] = useState('');
     const [ todoDescription, setTodoDescription ] = useState('');
-    const [ session, setSession ] = useState<Session | null>(null);
+    const [ table, setTable ] = useState();
+    const [ session, setSession ] = useState<AuthModel | null>(null);
     const navigate = useNavigate();
     const { todo_id } = useParams();
-    invoke("log_in_console", { text:todo_id , text2:"" } ).then();
 
 
     useEffect(()=>{
-        supabase.auth.getSession().then( async( { data: {session} } ) =>{
-            setSession(session);
-            // @ts-ignore
-            await getTodo(todo_id);
-        });
+        if(pocket_base.authStore.isValid){
+            setSession(pocket_base.authStore.model);
+            getTodo(todo_id).then();
+        }
+        else{
+            navigate("/");
+        }
     },[]);
 
-    async function getTodo(id :number) {
-        const { data, error } = await supabase.from('todos').select('todo, description, table').eq('id', id);
-        if (error) {
-            await invoke("log_in_console", {text: error.message, text2: "getTodo"});
-            return '';
-        }
+    async function getTodo(id :any) {
+        const data = await pocket_base.collection("todos").getOne(id);
         console.log(data);
-        setTodoTitle(data[0].todo);
-        setTodoDescription(data[0].description);
+        setTodoTitle(data.todo_title);
+        setTodoDescription(data.todo_description);
+        setTable(data.table);
+
     }
 
     const updateTodo = async (e:any) =>{
         e.preventDefault();
+        e.preventDefault();
+        if(!session)return;
+        if(!todo_id) return;
         //@ts-ignore
-        supabase.from('todos').update({ todo: todoTitle, description: todoDescription })
-            .eq('id', todo_id).eq("from", session?.user.id)
-            .then(({ data, error }) => {
-            if (error) {
-                invoke( "log_in_console", { text: error.message, text2:"addTodo" } );
-                return;
-            }
-            invoke( "log_in_console", { text: data, text2: "addTodo success"});
-            navigate("/");
-        })
+        const data = {
+            "todo_title": todoTitle,
+            "todo_description": todoDescription,
+            "user_id": session.id,
+            "done": false,
+            "table": table
+        }
 
+        pocket_base.collection("todos").update(todo_id, data);
+        navigate("/");
 
     }
 
