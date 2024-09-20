@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { pocket_base } from "./lib/pocket_base.ts";
 import { invoke } from "@tauri-apps/api/core";
 import LogInHeader from "./Components/LogInHeader.tsx";
-import {Form, useNavigate} from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 
 export default function App() {
     const [session, setSession] = useState<boolean>(false)

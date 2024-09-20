@@ -1,33 +1,35 @@
 import NavBar from "../Components/NavBar.tsx";
 import { useEffect, useState } from "react";
-import { Session } from "@supabase/supabase-js";
-import { supabase } from "../lib/supabase.ts";
 import { useNavigate } from "react-router-dom";
-import { invoke } from "@tauri-apps/api/core";
+import { pocket_base } from "../lib/pocket_base.ts";
+import { AuthModel } from "pocketbase";
 
 const CreateTodo = () =>{
     const [ todoTitle, setTodoTitle ] = useState('');
     const [ todoDescription, setTodoDescription ] = useState('');
-    const [ session, setSession ] = useState<Session | null>(null);
+    const [ session, setSession ] = useState<AuthModel | null>(null);
     const navigate = useNavigate();
 
     useEffect(()=>{
-        supabase.auth.getSession().then(({data: {session} }) =>{
-            setSession(session);
-        });
+        if(pocket_base.authStore.isValid){
+            setSession(pocket_base.authStore.model)
+        }
     },[]);
 
     const addTodo = async (e:any) =>{
         e.preventDefault();
+        if(!session)return
         //@ts-ignore
-        supabase.from('todos').insert({ todo: todoTitle, from: session.user.id, description: todoDescription }).then(({ data, error }) => {
-            if (error) {
-                invoke( "log_in_console", { text: error.message, text2:"addTodo" } );
-                return;
-            }
-            invoke( "log_in_console", { text: data, text2: "addTodo success"});
-            navigate("/");
-        })
+        const data = {
+            "todo_title": todoTitle,
+            "todo_description": todoDescription,
+            "user_id": session.id,
+            "done": false,
+            "table": null
+        }
+
+        pocket_base.collection('todos').create(data);
+        navigate("/");
 
 
     }
