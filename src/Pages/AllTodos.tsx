@@ -5,7 +5,7 @@ import {pocket_base} from "../lib/pocket_base.ts";
 import {AuthModel, RecordModel} from "pocketbase";
 
 
-const Home = () =>{
+const AllTodos = () =>{
 
     const [ session, setSession ] = useState<AuthModel | null>(null);
     const [ todos, setTodos ] = useState<RecordModel | []>([])
@@ -24,7 +24,7 @@ const Home = () =>{
     async function getTodos() {
         if(!session)setTimeout(() => getTodos(), 1000);
         if(!session) return;
-        const queryFilter = "user_id = \"" + session.id + "\" && done = false";
+        const queryFilter = "user_id = \"" + session.id + "\"";
         const data = await pocket_base.collection('todos').getFullList(
             {
                 filter: queryFilter,
@@ -35,9 +35,19 @@ const Home = () =>{
 
     }
 
+
+
+    function logout(){
+        pocket_base.authStore.clear();
+    }
+
     return(
         <div className="bg-base-100">
             <NavBar />
+            <p>You are logged in as {}</p>
+            <div>
+                <button className="btn" onClick={ logout }>Button</button>
+            </div>
             <div className="flex-1 justify-center py-12">
                 {
                     //@ts-ignore
@@ -60,4 +70,4 @@ const Home = () =>{
     )
 }
 
-export default Home;
+export default AllTodos;
