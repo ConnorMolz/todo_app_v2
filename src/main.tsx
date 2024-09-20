@@ -7,11 +7,16 @@ import {
 } from "react-router-dom";
 import CreateTodo from "./Pages/CreateTodo.tsx";
 import EditTodo from "./Pages/EditTodo.tsx";
+import Home from "./Pages/Home.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
+    },
+    {
+        path:"/Home",
+        element: <Home />,
     },
     {
         path: "/create",

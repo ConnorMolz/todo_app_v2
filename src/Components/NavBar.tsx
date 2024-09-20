@@ -1,11 +1,16 @@
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { supabase } from "../lib/supabase.ts";
+import {pocket_base} from "../lib/pocket_base.ts";
 
-function logout(){
-    supabase.auth.signOut().then();
-}
+
 
 const NavBar = () =>{
+    const navigate = useNavigate();
+    function logout(){
+        pocket_base.authStore.clear();
+        navigate("/");
+    }
+
     return (
         <div className="navbar bg-base-200">
             <div className="navbar-start">
