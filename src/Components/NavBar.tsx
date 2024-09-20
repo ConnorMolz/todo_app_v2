@@ -1,5 +1,4 @@
 import {Link, useNavigate} from "react-router-dom";
-import { supabase } from "../lib/supabase.ts";
 import {pocket_base} from "../lib/pocket_base.ts";
 
 

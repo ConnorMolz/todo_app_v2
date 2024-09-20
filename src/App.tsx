@@ -1,9 +1,5 @@
 import './App.css'
 import { useState, useEffect } from 'react'
-import { Session } from '@supabase/supabase-js'
-import Auth from "./Pages/Auth.tsx";
-import Home from "./Pages/Home.tsx";
-import { supabase } from "./lib/supabase.ts";
 import { pocket_base } from "./lib/pocket_base.ts";
 import { invoke } from "@tauri-apps/api/core";
 import LogInHeader from "./Components/LogInHeader.tsx";
@@ -19,10 +15,7 @@ export default function App() {
     async function signInWithEmail(e:any) {
         e.preventDefault();
 
-        //const { error } = await supabase.auth.signInWithPassword({
-        //email: email,
-        //password: password,
-        //});
+        //@ts-ignore
         const login = await pocket_base.collection("users").authWithPassword(
             email,
             password,
