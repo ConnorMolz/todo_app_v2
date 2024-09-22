@@ -1,6 +1,6 @@
 import NavBar from "../Components/NavBar.tsx";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
 
@@ -62,7 +62,8 @@ const CreateTodo = () =>{
                     />
                 </div>
                 <div className="flex justify-center">
-                    <button className="btn btn-neutral">Add Todo</button>
+                    <button className="btn btn-neutral px-5 mx-2">Add Todo</button>
+                    <Link className="btn btn-neutral px-5 mx-2" to={"/"}>Cancel</Link>
                 </div>
             </form>
         </div>
