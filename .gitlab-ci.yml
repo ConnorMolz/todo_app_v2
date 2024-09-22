@@ -36,16 +36,6 @@ install-front:
     paths:
       - node_modules
 
-install-testing:
-  image: node:16
-  stage: install
-  script:
-    - npm --cwd webdriver/webdriverio install
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - webdriver/webdriverio/node_modules
-
 build-front:
   image: node:16
   stage: build
@@ -59,14 +49,6 @@ build-front:
       - dist
       - src-tauri/target/webpack_dist
 
-
-lint-front:
-  image: node:16
-  stage: test
-  dependencies:
-    - install-front
-  script:
-    - npm lint
 
 compile-binary:
   image: rust:1-buster
