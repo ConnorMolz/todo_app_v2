@@ -15,8 +15,7 @@ export default function App() {
     async function signInWithEmail(e:any) {
         e.preventDefault();
 
-        //@ts-ignore
-        const login = await pocket_base.collection("users").authWithPassword(
+        await pocket_base.collection("users").authWithPassword(
             email,
             password,
         );
