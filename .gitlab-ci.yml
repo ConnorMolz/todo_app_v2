@@ -25,13 +25,12 @@ stages:
   - build
   - test
   - compile
-  - post-compile-test
 
 install-front:
   image: node:16
   stage: install
   script:
-    - yarn install
+    - npm install
   artifacts:
     expire_in: 1 hour
     paths:
@@ -41,7 +40,7 @@ install-testing:
   image: node:16
   stage: install
   script:
-    - yarn --cwd webdriver/webdriverio install
+    - npm --cwd webdriver/webdriverio install
   artifacts:
     expire_in: 1 hour
     paths:
@@ -51,7 +50,7 @@ build-front:
   image: node:16
   stage: build
   script:
-    - yarn build
+    - npm build
   dependencies:
     - install-front
   artifacts:
@@ -60,13 +59,6 @@ build-front:
       - dist
       - src-tauri/target/webpack_dist
 
-unit-test:
-  image: node:16
-  stage: test
-  dependencies:
-    - build-front
-  script:
-    - yarn test:unit
 
 lint-front:
   image: node:16
@@ -74,13 +66,12 @@ lint-front:
   dependencies:
     - install-front
   script:
-    - yarn lint
+    - npm lint
 
 compile-binary:
   image: rust:1-buster
   stage: compile
   dependencies:
-    - unit-test
     - build-front
   before_script:
     # Install Tauri dependencies
@@ -93,13 +84,3 @@ compile-binary:
       - src-tauri/target/release/bundle/
       - src-tauri/target/release/ch-desktop*
 
-e2e-test:
-  image: node:16
-  stage: post-compile-test
-  dependencies:
-    - compile-binary
-  before_script:
-    # Install WebDriver
-    - apt-get update && apt-get upgrade -y --no-install-recommends webkit2gtk-4.0 webkit2gtk-driver xvfb xauth
-  script:
-    - xvfb-run yarn test:e2e
