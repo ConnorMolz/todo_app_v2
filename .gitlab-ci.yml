@@ -40,7 +40,7 @@ build-front:
   image: node:16
   stage: build
   script:
-    - npm build
+    - npm run build
   dependencies:
     - install-front
   artifacts:
