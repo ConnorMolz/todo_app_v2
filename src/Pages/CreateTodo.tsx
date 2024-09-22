@@ -51,10 +51,10 @@ const CreateTodo = () =>{
                     />
                 </div>
                 <div className="flex justify-center py-5">
-                    <input
-                        type="text"
+                    <textarea
+                        rows={6}
                         placeholder="Your Todo Content"
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered w-full max-w-xs h-full max-h-xs"
                         value={todoDescription}
                         onChange={(e) => {
                             setTodoDescription(e.target.value)
