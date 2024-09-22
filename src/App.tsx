@@ -33,7 +33,7 @@ export default function App() {
         setSession(pocket_base.authStore.isValid);
         setLoading(false);
 
-    }, [])
+    }, []);
 
     if(loading){
         return (
@@ -47,7 +47,7 @@ export default function App() {
     else {
         return (
             <div className="min-h-screen">
-                <LogInHeader />
+                <LogInHeader/>
                 <Form onSubmit={signInWithEmail} className="">
                     <div className="flex justify-center py-5">
                         <label className="input input-bordered flex items-center gap-2">
