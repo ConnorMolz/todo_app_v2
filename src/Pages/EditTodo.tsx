@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
-import {invoke} from "@tauri-apps/api/core";
 
 const editTodo = () =>{
 
@@ -23,6 +22,7 @@ const editTodo = () =>{
     const [ itemDescription, setItemDescription ] = useState('');
     const [ itemDone, setItemDone ] = useState(false);
 
+    // Check Session else redirect the user to the auth page
     useEffect(()=>{
         if(pocket_base.authStore.isValid){
             setSession(pocket_base.authStore.model);
@@ -33,17 +33,24 @@ const editTodo = () =>{
         }
     },[]);
 
+    // Renderer for table item, if the done status is changed
+    // Without this useEffect the page gets not rendered on change of
+    // Item status change
     useEffect(() => {
         setChangeOnItem(false);
     }, [changeOnItem]);
 
+    // Function, which pull the entry by ID from the backend
     async function getTodo(id :any) {
+        // Pull the data
         const data = await pocket_base.collection("todos").getOne(id);
-        console.log(data);
+
+        // Set the Data into the page variables
         setTodoTitle(data.todo_title);
         setTodoDescription(data.todo_description);
         setDone(data.done);
-        invoke("log_in_console", {text:data.table, text2:"ttt"})
+
+        // Check if a table is already created and if not on table gets rendered
         if(data.table != null){
             setTableData(data.table);
             setHasTable(true);
@@ -52,10 +59,16 @@ const editTodo = () =>{
 
     }
 
+    // Function, which update the entry at the backend
     const updateTodo = async (e:any) =>{
+        // Prevent page reload
         e.preventDefault();
+
+        // Return if session or todo_id is not set correctly
         if(!session)return;
         if(!todo_id) return;
+
+        // Create data set for update in the backend
         //@ts-ignore
         const data = {
             "todo_title": todoTitle,
@@ -65,14 +78,19 @@ const editTodo = () =>{
             "table": tableData
         }
 
+        // Send update and navigate back to the Home Page
         pocket_base.collection("todos").update(todo_id, data);
         navigate("/");
 
     }
 
+    // Update function for the status
     async function setStatus(newStatus:boolean){
+        // Return if session or todo_id is not set correctly
         if(!session)return;
         if(!todo_id) return;
+
+        // Create data set for update in the backend
         //@ts-ignore
         const data = {
             "todo_title": todoTitle,
@@ -82,10 +100,13 @@ const editTodo = () =>{
             "table": tableData
         }
 
+        // Send update and navigate back to the Home Page
         pocket_base.collection("todos").update(todo_id, data);
         navigate("/");
     }
 
+    // functions for set todos done and undone which
+    // call the setStatus function with a different parameter
     function setTodoDone(e:any){
         e.preventDefault();
         setStatus(true).then();
@@ -96,7 +117,9 @@ const editTodo = () =>{
         setStatus(false).then();
     }
 
-    const addItem = async (e:any) => {
+    // Add Item to the table
+    const addItem = (e:any) => {
+        // Prevent page reloading
         e.preventDefault();
 
         // Get data from the new Item
@@ -115,10 +138,9 @@ const editTodo = () =>{
         setItemDescription('');
         setItemDone(false);
 
-        invoke("log_in_console", {text:"", text2:tableData}).then()
-
     }
 
+    // Function for rendering the table at creation
     const createTable = (e:any) => {
         //Prevent reloading
         e.preventDefault();
