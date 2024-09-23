@@ -5,13 +5,15 @@ import { invoke } from "@tauri-apps/api/core";
 import LogInHeader from "./Components/LogInHeader.tsx";
 import { Form, useNavigate } from "react-router-dom";
 
+
 export default function App() {
 
     // Page variables
-    const [session, setSession] = useState<boolean>(false)
-    const [loading, setLoading] = useState(true)
+    const [ session, setSession ] = useState<boolean>(false)
+    const [ loading, setLoading ] = useState(true)
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+    const [ authError, setAuthError ] = useState(false);
     const navigator = useNavigate();
 
     // Use the form data to login the user
@@ -21,7 +23,20 @@ export default function App() {
         await pocket_base.collection("users").authWithPassword(
             email,
             password,
+        ).catch( async () =>{
+            // If the auth failed send a message to the user
+            if(!pocket_base.authStore.isValid){
+
+                // Show the Alert under the form
+                setAuthError(true);
+                // Deactivate the Alert after 5 seconds
+                setTimeout(() => setAuthError(false), 5000);
+
+                return setLoading(false)
+            }}
         );
+
+
 
         // @ts-ignore
         invoke("log_in_console", {text:pocket_base.authStore.model.id, text2:"Test"}).then();
@@ -103,6 +118,22 @@ export default function App() {
                         <button className="btn btn-neutral">Log In</button>
                     </div>
                 </Form>
+                { authError &&
+                    <div role="alert" className="alert alert-warning" id="AuthError" >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 shrink-0 stroke-current"
+                            fill="none"
+                            viewBox="0 0 24 24">
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <span>Warning: Invalid email address!</span>
+                    </div>
+                }
             </div>
         );
     }
