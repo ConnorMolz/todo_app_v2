@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
-import {invoke} from "@tauri-apps/api/core";
 
 const CreateTodo = () =>{
     // Page variables
@@ -20,19 +19,32 @@ const CreateTodo = () =>{
     const [ itemDescription, setItemDescription ] = useState('');
     const [ itemDone, setItemDone ] = useState(false);
 
+    // Check Session else redirect the user to the auth page
     useEffect(()=>{
         if(pocket_base.authStore.isValid){
             setSession(pocket_base.authStore.model)
         }
+        else{
+            navigate("/");
+        }
     },[]);
 
+    // Renderer for table item, if the done status is changed
+    // Without this useEffect the page gets not rendered on change of
+    // Item status change
     useEffect(() => {
         setChangeOnItem(false);
     }, [changeOnItem]);
 
+    // Function, which add the new entry at the backend
     const addTodo = async (e:any) =>{
+        // Prevent page reloading
         e.preventDefault();
+
+        // If session is not set return
         if(!session)return
+
+        // Dataset for the backend
         //@ts-ignore
         const data = {
             "todo_title": todoTitle,
@@ -42,13 +54,17 @@ const CreateTodo = () =>{
             "table": tableData
         }
 
+        // Add entry to the backend
         pocket_base.collection('todos').create(data);
-        navigate("/");
 
+        // Navigate to the home page after check the session
+        navigate("/");
 
     }
 
+    // Add Item to table
     const addItem = async (e:any) => {
+        // Prevent page reloading
         e.preventDefault();
 
         // Get data from the new Item
@@ -67,10 +83,9 @@ const CreateTodo = () =>{
         setItemDescription('');
         setItemDone(false);
 
-        invoke("log_in_console", {text:"", text2:tableData}).then()
-
     }
 
+    // Function for rendering the table at creation
     const createTable = (e:any) => {
         //Prevent reloading
         e.preventDefault();
