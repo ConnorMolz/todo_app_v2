@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import NavBar from "../Components/NavBar.tsx";
-import {Link, useNavigate} from 'react-router-dom';
-import {pocket_base} from "../lib/pocket_base.ts";
-import {AuthModel, RecordModel} from "pocketbase";
+import { Link, useNavigate } from 'react-router-dom';
+import { pocket_base } from "../lib/pocket_base.ts";
+import { AuthModel, RecordModel } from "pocketbase";
 
 
 const Home = () =>{
@@ -10,7 +10,7 @@ const Home = () =>{
     // Page Variables
     const [ session, setSession ] = useState<AuthModel | null>(null);
     const [ todos, setTodos ] = useState<RecordModel | []>([])
-    // Navitgator for send back if the session is invalid
+    // Navigator for send back if the session is invalid
     const navigate = useNavigate();
 
     // Check session
