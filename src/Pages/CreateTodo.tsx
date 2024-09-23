@@ -143,6 +143,7 @@ const CreateTodo = () =>{
                                     <input
                                         type="text"
                                         placeholder="Add the title of your list item"
+                                        className="input input-bordered w-full max-w-xs"
                                         value={itemTitle}
                                         onChange={(e) => setItemTitle(e.target.value)}
                                     />
@@ -151,6 +152,7 @@ const CreateTodo = () =>{
                                     <input
                                         type="text"
                                         placeholder="Add the description of your list item"
+                                        className="input input-bordered w-full max-w-xs"
                                         value={itemDescription}
                                         onChange={(e) => setItemDescription(e.target.value)}
                                     />
