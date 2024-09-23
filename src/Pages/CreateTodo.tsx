@@ -12,9 +12,10 @@ const CreateTodo = () =>{
     const [ session, setSession ] = useState<AuthModel | null>(null);
     const [ hasTable, setHasTable ] = useState(false);
     const [ tableData, setTableData ] = useState<{ todo_item_title: string, todo_item_description: string, todo_item_done: boolean }[]>([]);
+    const [ changeOnItem, setChangeOnItem ] = useState(false);
     const navigate = useNavigate();
 
-    // Modal (add Item to table) variables
+    // New Item at table variables
     const [ itemTitle, setItemTitle ] = useState('');
     const [ itemDescription, setItemDescription ] = useState('');
     const [ itemDone, setItemDone ] = useState(false);
@@ -24,6 +25,10 @@ const CreateTodo = () =>{
             setSession(pocket_base.authStore.model)
         }
     },[]);
+
+    useEffect(() => {
+        setChangeOnItem(false);
+    }, [changeOnItem]);
 
     const addTodo = async (e:any) =>{
         e.preventDefault();
@@ -131,7 +136,8 @@ const CreateTodo = () =>{
                                                 checked={item.todo_item_done}
                                                 className="checkbox"
                                                 onClick={() => {
-                                                    item.todo_item_done = !item.todo_item_done
+                                                    item.todo_item_done = !item.todo_item_done;
+                                                    setChangeOnItem(true);
                                                 }}
                                             />
                                         </td>
