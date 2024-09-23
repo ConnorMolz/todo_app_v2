@@ -11,10 +11,13 @@ import Home from "./Pages/Home.tsx";
 import AllTodos from "./Pages/AllTodos.tsx";
 
 const router = createBrowserRouter([
+    // All paths which are used in the app
+    //Index
     {
         path: "/",
         element: <App />,
     },
+    // Main pages prefix /Home/<page>
     {
         path:"/Home",
         element: <Home />,
@@ -23,6 +26,7 @@ const router = createBrowserRouter([
         path:"/Home/all",
         element: <AllTodos />
     },
+    // Create and edit
     {
         path: "/create",
         element: <CreateTodo />,

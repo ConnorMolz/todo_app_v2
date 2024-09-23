@@ -6,12 +6,15 @@ import LogInHeader from "./Components/LogInHeader.tsx";
 import { Form, useNavigate } from "react-router-dom";
 
 export default function App() {
+
+    // Page variables
     const [session, setSession] = useState<boolean>(false)
     const [loading, setLoading] = useState(true)
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const navigator = useNavigate();
 
+    // Use the form data to login the user
     async function signInWithEmail(e:any) {
         e.preventDefault();
 
@@ -22,11 +25,12 @@ export default function App() {
 
         // @ts-ignore
         invoke("log_in_console", {text:pocket_base.authStore.model.id, text2:"Test"}).then();
-
+        // Activate the session for redirecting to the Home site
         setSession(true);
 
     }
 
+    // Check session on initial rendering
     useEffect(() => {
         setLoading(true);
         setSession(pocket_base.authStore.isValid);
@@ -34,15 +38,18 @@ export default function App() {
 
     }, []);
 
+    // Show skeleton at rendering
     if(loading){
         return (
             <div className="skeleton h-32 w-32"></div>
         )
     }
 
+    // If the session is active after loading redirect to Home Page
     if (session && !loading) {
         navigator("/Home");
     }
+    // Else return the Login Page to the user
     else {
         return (
             <div className="min-h-screen">
