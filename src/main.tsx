@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     {
         path: "/singUp",
         element: <SingUp />,
-    }
+    },
 ])
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

@@ -16,6 +16,7 @@ const SingUp = () => {
     const [ passwordsNotMatchingAlert, setPasswordsNotMatchingAlert ] = useState(false);
     const [ registrationError, setRegistrationError ] = useState(false);
     const [ registrationErrorMessage, setRegistrationErrorMessage ] = useState("");
+    const [ registrationSuccess, setRegistrationSuccess ] = useState(false);
 
 
     const createUser = async (e:any) => {
@@ -43,8 +44,7 @@ const SingUp = () => {
         const records = await pocket_base.collection('users').getFullList({
            filter: queryFilter
         });
-        console.log(queryFilter);
-        console.log(records);
+
         // If one or more records with the given mail address already exists an
         // Error alert is showing and the app will send the registration request
         if(records.length != 0){
@@ -55,7 +55,7 @@ const SingUp = () => {
             return;
         }
 
-        // Create the user and redirect to the Auth Page
+        // Create the user
         await pocket_base.collection("users").create(userData).catch((err:Error) => {
             setRegistrationError(true);
             setRegistrationErrorMessage(err.message);
@@ -63,7 +63,10 @@ const SingUp = () => {
             setTimeout(()=>setRegistrationErrorMessage(""));
         });
 
-        navigate("/");
+        // Send a verification Mail and routing the user to the verify page
+        await pocket_base.collection('users').requestVerification(email);
+        setRegistrationSuccess(true);
+        setTimeout(()=>navigate("/"), 3000);
 
     }
 
@@ -189,6 +192,23 @@ const SingUp = () => {
                             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <span>{registrationErrorMessage}</span>
+                </div>
+            }
+            {
+                registrationSuccess &&
+                <div role="alert" className="alert alert-success">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 shrink-0 stroke-current"
+                        fill="none"
+                        viewBox="0 0 24 24">
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>Your account is created you will soon get an Email to verify your account.</span>
                 </div>
             }
         </div>
