@@ -103,7 +103,7 @@ const editTodo = () =>{
         }
 
         // Send update and navigate back to the Home Page
-        pocket_base.collection("todos").update(todo_id, data);
+        await pocket_base.collection("todos").update(todo_id, data);
         navigate("/");
 
     }
@@ -131,7 +131,7 @@ const editTodo = () =>{
         }
 
         // Send update and navigate back to the Home Page
-        pocket_base.collection("todos").update(todo_id, data);
+        await pocket_base.collection("todos").update(todo_id, data);
         navigate("/");
     }
 
