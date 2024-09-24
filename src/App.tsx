@@ -19,7 +19,7 @@ export default function App() {
     const [ authError, setAuthError ] = useState(false);
     const [ authErrorMessage, setAuthErrorMessage ] = useState('');
 
-    // Use the form data to login the user
+    // Use the form data to log in the user
     async function signInWithEmail(e:any) {
         e.preventDefault();
 
