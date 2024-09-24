@@ -2,9 +2,10 @@ import {Link, useNavigate} from "react-router-dom";
 import {pocket_base} from "../lib/pocket_base.ts";
 
 
-
 const NavBar = () =>{
+    // navigate for the logout and Todo pages
     const navigate = useNavigate();
+    // Logout with navigate to home where the logout is implemented
     function logout(){
         pocket_base.authStore.clear();
         navigate("/");
