@@ -9,6 +9,7 @@ import CreateTodo from "./Pages/CreateTodo.tsx";
 import EditTodo from "./Pages/EditTodo.tsx";
 import Home from "./Pages/Home.tsx";
 import AllTodos from "./Pages/AllTodos.tsx";
+import SingUp from "./Pages/SingUp.tsx";
 
 const router = createBrowserRouter([
     // All paths which are used in the app
@@ -34,6 +35,11 @@ const router = createBrowserRouter([
     {
         path: "/edit/:todo_id",
         element: <EditTodo />,
+    },
+    // User Management and SingUp + Validations
+    {
+        path: "/singUp",
+        element: <SingUp />,
     }
 ])
 
