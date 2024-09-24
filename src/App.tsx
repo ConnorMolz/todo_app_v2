@@ -13,8 +13,11 @@ export default function App() {
     const [ loading, setLoading ] = useState(true)
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
-    const [ authError, setAuthError ] = useState(false);
     const navigator = useNavigate();
+
+    // Alert
+    const [ authError, setAuthError ] = useState(false);
+    const [ authErrorMessage, setAuthErrorMessage ] = useState('');
 
     // Use the form data to login the user
     async function signInWithEmail(e:any) {
@@ -23,14 +26,18 @@ export default function App() {
         await pocket_base.collection("users").authWithPassword(
             email,
             password,
-        ).catch( async () =>{
+        ).catch( async (err:any) =>{
+
             // If the auth failed send a message to the user
             if(!pocket_base.authStore.isValid){
 
-                // Show the Alert under the form
+                // Show the Alert under the form and set the message in the alert
+                setAuthErrorMessage(err.message);
                 setAuthError(true);
-                // Deactivate the Alert after 5 seconds
+
+                // Deactivate the Alert after 5 seconds and clean up the error message
                 setTimeout(() => setAuthError(false), 5000);
+                setTimeout(() => setAuthErrorMessage(''), 5000);
 
                 return setLoading(false)
             }}
@@ -131,7 +138,7 @@ export default function App() {
                                 strokeWidth="2"
                                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
-                        <span>Warning: Invalid email address!</span>
+                        <span>{authErrorMessage}</span>
                     </div>
                 }
             </div>
