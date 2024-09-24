@@ -46,14 +46,6 @@ const CreateTodo = () =>{
         if(!session)return
 
         // Dataset for the backend
-        //@ts-ignore
-        /*const data = {
-            "todo_title": todoTitle,
-            "todo_description": todoDescription,
-            "user_id": session.id,
-            "done": false,
-            "table": tableData
-        }*/
         const data = new FormData();
         data.append("todo_title", todoTitle);
         data.append("todo_description", todoDescription);
