@@ -1,7 +1,7 @@
-import LogInHeader from "../Components/LogInHeader.tsx";
+import LogInHeader from "../../Components/LogInHeader.tsx";
 import {Form, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {pocket_base} from "../lib/pocket_base.ts";
+import {pocket_base} from "../../lib/pocket_base.ts";
 
 const SingUp = () => {
 
