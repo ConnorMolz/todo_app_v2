@@ -63,7 +63,6 @@ const CreateTodo = () =>{
         if(picture != null) {
             data.append("image", picture, "image.png");
         }
-        console.log(data);
 
         // Add entry to the backend
         await pocket_base.collection('todos').create(data);
