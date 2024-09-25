@@ -35,6 +35,7 @@ const NavBar = () =>{
                         <li><Link to={ "/" }>Home</Link></li>
                         <li><Link to={ "/create" }>Add Todo</Link></li>
                         <li><Link to={ "/Home/all"}>All Todos</Link></li>
+                        <li><Link to={ "/settings" } >Settings</Link></li>
                         <li><button onClick={ logout }>Logout</button></li>
                     </ul>
                 </div>
