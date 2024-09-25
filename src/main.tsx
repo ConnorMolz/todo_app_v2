@@ -11,6 +11,7 @@ import Home from "./Pages/Home.tsx";
 import AllTodos from "./Pages/AllTodos.tsx";
 import SingUp from "./Pages/UserManagment/SingUp.tsx";
 import ForgotPassword from "./Pages/UserManagment/ForgotPassword.tsx";
+import Settings from "./Pages/UserManagment/Settings.tsx";
 
 const router = createBrowserRouter([
     // All paths which are used in the app
@@ -45,7 +46,11 @@ const router = createBrowserRouter([
     {
         path:"/user/forgotPassword",
         element: <ForgotPassword />,
-    }
+    },
+    {
+        path: "/settings",
+        element: <Settings />,
+    },
 ])
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
