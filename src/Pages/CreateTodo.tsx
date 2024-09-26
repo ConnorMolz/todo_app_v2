@@ -12,6 +12,7 @@ const CreateTodo = () =>{
     const [ hasTable, setHasTable ] = useState(false);
     const [ tableData, setTableData ] = useState<{ todo_item_title: string, todo_item_description: string, todo_item_done: boolean }[]>([]);
     const [ changeOnItem, setChangeOnItem ] = useState(false);
+    const [ picture, setPicture ] = useState<File | null>(null);
     const navigate = useNavigate();
 
     // New Item at table variables
@@ -45,17 +46,18 @@ const CreateTodo = () =>{
         if(!session)return
 
         // Dataset for the backend
-        //@ts-ignore
-        const data = {
-            "todo_title": todoTitle,
-            "todo_description": todoDescription,
-            "user_id": session.id,
-            "done": false,
-            "table": tableData
+        const data = new FormData();
+        data.append("todo_title", todoTitle);
+        data.append("todo_description", todoDescription);
+        data.append("user_id", session.id);
+        data.append("done", "false");
+        data.append("table", JSON.stringify(tableData));
+        if(picture != null) {
+            data.append("image", picture, "image.png");
         }
 
         // Add entry to the backend
-        pocket_base.collection('todos').create(data);
+        await pocket_base.collection('todos').create(data);
 
         // Navigate to the home page after check the session
         navigate("/");
@@ -189,12 +191,39 @@ const CreateTodo = () =>{
                             </tr>
                             </tbody>
                         </table>
+
                         <div className="flex justify-center py-5">
                             <button className="btn btn-neutral px-5 mx-2" onClick={addItem}>Add item</button>
                         </div>
 
                     </div>
 
+                }
+                <div className="flex justify-center py-5">
+                    <input
+                        type="file"
+                        className="file-input file-input-bordered w-full max-w-xs"
+                        accept="image/*"
+                        onChange={(e) => {
+                            if (e.target.files) {
+                                setPicture(e.target.files[0]);
+                            }
+                        }}
+                    />
+                </div>
+                {
+                    picture && (
+                    <div className="pb-5">
+                        <div className="flex justify-center py-5">
+                            <img src={URL.createObjectURL(picture)} alt="Preview" className="w-1/2" />
+                        </div>
+                        <div className="flex justify-center">
+                            <div className="flex justify-center">
+                                <button className="btn btn-neutral px-5 mx-2" onClick={() => setPicture(null)}>Remove Image</button>
+                            </div>
+                        </div>
+                    </div>
+                    )
                 }
                 <div className="flex justify-center">
                     <button className="btn btn-neutral px-5 mx-2">Add Todo</button>

@@ -14,6 +14,8 @@ const editTodo = () =>{
     const [ session, setSession ] = useState<AuthModel | null>(null);
     const [ done, setDone ] = useState(false);
     const [ changeOnItem, setChangeOnItem ] = useState(false);
+    const [ picture, setPicture ] = useState<File | null>(null);
+    const [ pictureName, setPictureName ] = useState('');
     const navigate = useNavigate();
     const { todo_id } = useParams();
 
@@ -55,7 +57,25 @@ const editTodo = () =>{
             setTableData(data.table);
             setHasTable(true);
         }
+        console.log(data);
+        // If the backend delivers an image, the image will be loaded
+        // reference: Pocket base Documentation
+        if(data.image){
+            // Set picture name for eventual deletion later
+            setPictureName(data.image);
 
+            // Get a token for File Access
+            const fileToken = await pocket_base.files.getToken();
+
+            // Get with the token the direct URL for the image
+            const imageUrl = pocket_base.files.getUrl(data, data.image, {token: fileToken});
+
+            // Get request for the Image
+            const request = await fetch(imageUrl);
+            //@ts-ignore is needed by type Script because this endpoint will
+            // return always an image file
+            setPicture(await request.blob());
+        }
 
     }
 
@@ -69,17 +89,21 @@ const editTodo = () =>{
         if(!todo_id) return;
 
         // Create data set for update in the backend
-        //@ts-ignore
-        const data = {
-            "todo_title": todoTitle,
-            "todo_description": todoDescription,
-            "user_id": session.id,
-            "done": done,
-            "table": tableData
+        const data = new FormData();
+        data.append("todo_title", todoTitle);
+        data.append("todo_description", todoDescription);
+        data.append("user_id", session.id);
+        data.append("done", done.toString());
+        data.append("table", JSON.stringify(tableData));
+        if(picture != null) {
+            data.append("image", picture, "image.png");
+        }else{
+            // Pocket base will so delete the picture
+            data.append("image-", pictureName);
         }
 
         // Send update and navigate back to the Home Page
-        pocket_base.collection("todos").update(todo_id, data);
+        await pocket_base.collection("todos").update(todo_id, data);
         navigate("/");
 
     }
@@ -92,16 +116,22 @@ const editTodo = () =>{
 
         // Create data set for update in the backend
         //@ts-ignore
-        const data = {
-            "todo_title": todoTitle,
-            "todo_description": todoDescription,
-            "user_id": session.id,
-            "done": newStatus,
-            "table": tableData
+        const data = new FormData();
+        data.append("todo_title", todoTitle);
+        data.append("todo_description", todoDescription);
+        data.append("user_id", session.id);
+        data.append("done", newStatus.toString());
+        data.append("table", JSON.stringify(tableData));
+        if(picture != null) {
+            data.append("image", picture, "image.png");
+        }
+        else{
+            // Pocket base will so delete the picture
+            data.append("image-", pictureName);
         }
 
         // Send update and navigate back to the Home Page
-        pocket_base.collection("todos").update(todo_id, data);
+        await pocket_base.collection("todos").update(todo_id, data);
         navigate("/");
     }
 
@@ -250,6 +280,33 @@ const editTodo = () =>{
 
                     </div>
 
+                }
+
+                <div className="flex justify-center py-5">
+                    <input
+                        type="file"
+                        className="file-input file-input-bordered w-full max-w-xs"
+                        accept="image/*"
+                        onChange={(e) => {
+                            if (e.target.files) {
+                                setPicture(e.target.files[0]);
+                            }
+                        }}
+                    />
+                </div>
+                {
+                    picture && (
+                        <div className="pb-5">
+                            <div className="flex justify-center py-5">
+                                <img src={URL.createObjectURL(picture)} alt="Preview" className="w-1/2" />
+                            </div>
+                            <div className="flex justify-center">
+                                <div className="flex justify-center">
+                                    <button className="btn btn-neutral px-5 mx-2" onClick={() => setPicture(null)}>Remove Image</button>
+                                </div>
+                            </div>
+                        </div>
+                    )
                 }
                 <div className="flex justify-center py-5">
                     <button className="btn btn-neutral px-5 mx-2" onClick={updateTodo}>Update Todo</button>
