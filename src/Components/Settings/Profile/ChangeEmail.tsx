@@ -79,7 +79,7 @@ const ChangeEmail = () => {
                     />
                 </div>
                 <div className="flex justify-center">
-                    <button className="btn btn-neutral px-5 mx-2">Add Todo</button>
+                    <button className="btn btn-neutral px-5 mx-2">Request E-Mail change</button>
                 </div>
             </Form>
             {
