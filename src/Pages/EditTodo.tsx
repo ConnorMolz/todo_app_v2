@@ -15,6 +15,20 @@ const editTodo = () =>{
     const [ done, setDone ] = useState(false);
     const [ changeOnItem, setChangeOnItem ] = useState(false);
     const [ picture, setPicture ] = useState<File | null>(null);
+
+    const validateFile = (file: File): boolean => {
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (!validTypes.includes(file.type)) {
+            alert('Invalid file type. Please upload an image file (jpeg, png, gif).');
+            return false;
+        }
+        if (file.size > maxSize) {
+            alert('File size exceeds the limit of 5MB.');
+            return false;
+        }
+        return true;
+    };
     const [ pictureName, setPictureName ] = useState('');
     const navigate = useNavigate();
     const { todo_id } = useParams();
@@ -288,7 +302,7 @@ const editTodo = () =>{
                         className="file-input file-input-bordered w-full max-w-xs"
                         accept="image/*"
                         onChange={(e) => {
-                            if (e.target.files) {
+                            if (e.target.files && validateFile(e.target.files[0])) {
                                 setPicture(e.target.files[0]);
                             }
                         }}
