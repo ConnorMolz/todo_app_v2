@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
+import DOMPurify from 'dompurify';
 
 const editTodo = () =>{
 
@@ -312,7 +313,7 @@ const editTodo = () =>{
                     picture && (
                         <div className="pb-5">
                             <div className="flex justify-center py-5">
-                                <img src={URL.createObjectURL(picture)} alt="Preview" className="w-1/2" />
+                                <img src={DOMPurify.sanitize(URL.createObjectURL(picture))} alt="Preview" className="w-1/2" />
                             </div>
                             <div className="flex justify-center">
                                 <div className="flex justify-center">
