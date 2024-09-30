@@ -46,7 +46,11 @@ const NavBar = () =>{
                 <Link to={ "/" } className="btn btn-ghost text-xl">Todo App</Link>
             </div>
             <div className="navbar-end">
-                <Jdenticon size="48" value={session?.identicon} />
+                <div className="avatar">
+                    <div className="w-12 rounded-full">
+                        <Jdenticon size="48" value={session?.identicon} />
+                    </div>
+                </div>
             </div>
         </div>
     )
