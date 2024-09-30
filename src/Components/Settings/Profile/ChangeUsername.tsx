@@ -1,17 +1,16 @@
 import {Form, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {AuthModel} from "pocketbase";
 import {pocket_base} from "../../../lib/pocket_base.ts";
 
-const ChangeEmail = () => {
+const ChangeUsername = () => {
 
     // Page variables
-    const [ session, setSession ] = useState<AuthModel | null>(null);
+    const session = pocket_base.authStore.model;
     const navigate = useNavigate();
 
     // Email change variables
-    const [ currentEmail, setCurrentEmail ] = useState('');
-    const [ newEmail, setNewEmail ] = useState('');
+    const [ currentName, setCurrentName ] = useState(session?.username);
+    const [ newName, setNewName ] = useState('');
 
     // Alerts
     const [ errorAlert, setErrorAlert ] = useState(false);
@@ -22,30 +21,31 @@ const ChangeEmail = () => {
     // Check Session else redirect the user to the auth page
     useEffect(()=>{
         if(pocket_base.authStore.isValid){
-            setSession(pocket_base.authStore.model)
-            setCurrentEmail(session?.email);
+            setCurrentName(session?.username);
         }
         else{
             navigate("/");
         }
     },[]);
 
-    const changeMail = async (e:any) =>{
+    const changeName = async (e:any) =>{
         e.preventDefault();
         if(!session)return;
         // Prepare data package for the email update
         const data = new FormData();
-        data.append("email", currentEmail);
+        data.append("username", newName);
 
-        await pocket_base.collection('users').requestEmailChange(newEmail).catch((err:any) => {
+        await pocket_base.collection('users').update(session.id, data).catch((err:any) => {
             setErrorAlert(true);
             setErrorMessage(err.message);
             setTimeout(() => setErrorAlert(false), 5000);
             setTimeout(() => setErrorMessage(''), 5000);
             return;
         });
+        setTimeout(() => pocket_base.authStore.clear(), 3000);
+        setTimeout(() => navigate("/"), 3000);
         setSuccessAlert(true);
-        setSuccessMessage('You got a mail to your new e-mail address to verify your e-mail change now!');
+        setSuccessMessage('Username is changed successfully');
         setTimeout(() => setSuccessAlert(false), 7000);
         setTimeout(() => setSuccessMessage(''), 7000);
     }
@@ -53,35 +53,35 @@ const ChangeEmail = () => {
     return(
         <div>
 
-            <Form onSubmit={changeMail}>
+            <Form onSubmit={changeName}>
                 <div className="flex text-3xl">Change your password</div>
                 <div className="flex  py-5">
                     <input
-                        disabled={currentEmail !== null}
+                        disabled={true}
                         required={true}
-                        type="email"
-                        placeholder="Enter your current email"
+                        type="text"
+                        placeholder="Enter your current username"
                         className="input input-bordered w-full max-w-xs"
-                        value={currentEmail}
+                        value={currentName}
                         onChange={(e) => {
-                            setCurrentEmail(e.target.value)
+                            setCurrentName(e.target.value)
                         }}
                     />
                 </div>
                 <div className="flex  py-5">
                     <input
                         required={true}
-                        type="email"
-                        placeholder="Enter your new email"
+                        type="text"
+                        placeholder="Enter your new username"
                         className="input input-bordered w-full max-w-xs"
-                        value={newEmail}
+                        value={newName}
                         onChange={(e) => {
-                            setNewEmail(e.target.value)
+                            setNewName(e.target.value)
                         }}
                     />
                 </div>
                 <div className="flex ">
-                    <button className="btn btn-neutral px-5 mx-2">Request E-Mail change</button>
+                    <button className="btn btn-neutral px-5 mx-2">Change Username</button>
                 </div>
             </Form>
             {
@@ -126,4 +126,4 @@ const ChangeEmail = () => {
     )
 }
 
-export default ChangeEmail
+export default ChangeUsername

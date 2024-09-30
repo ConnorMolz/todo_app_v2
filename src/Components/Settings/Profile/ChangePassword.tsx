@@ -59,8 +59,8 @@ const ChangePassword = () => {
     return (
         <div>
             <Form onSubmit={changePassword}>
-                <div className="justify-center flex text-3xl">Change your password</div>
-                <div className="flex justify-center py-5">
+                <div className=" flex text-3xl">Change your password</div>
+                <div className="flex  py-5">
                     <input
                         required={true}
                         type="password"
@@ -72,7 +72,7 @@ const ChangePassword = () => {
                         }}
                     />
                 </div>
-                <div className="flex justify-center py-5">
+                <div className="flex  py-5">
                     <input
                         required={true}
                         type="password"
@@ -84,7 +84,7 @@ const ChangePassword = () => {
                         }}
                     />
                 </div>
-                <div className="flex justify-center py-5">
+                <div className="flex  py-5">
                     <input
                         required={true}
                         type="password"
@@ -96,7 +96,7 @@ const ChangePassword = () => {
                         }}
                     />
                 </div>
-                <div className="flex justify-center">
+                <div className="flex ">
                     <button className="btn btn-neutral px-5 mx-2">Change Password</button>
                 </div>
             </Form>
