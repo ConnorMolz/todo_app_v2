@@ -53,8 +53,8 @@ const ChangeEmail = () => {
         <div>
 
             <Form onSubmit={changeMail}>
-                <div className="justify-center flex text-3xl">Change your password</div>
-                <div className="flex justify-center py-5">
+                <div className="flex text-3xl">Change your password</div>
+                <div className="flex  py-5">
                     <input
                         required={true}
                         type="email"
@@ -66,11 +66,11 @@ const ChangeEmail = () => {
                         }}
                     />
                 </div>
-                <div className="flex justify-center py-5">
+                <div className="flex  py-5">
                     <input
                         required={true}
                         type="email"
-                        placeholder="Enter your old password"
+                        placeholder="Enter your new email"
                         className="input input-bordered w-full max-w-xs"
                         value={newEmail}
                         onChange={(e) => {
@@ -78,7 +78,7 @@ const ChangeEmail = () => {
                         }}
                     />
                 </div>
-                <div className="flex justify-center">
+                <div className="flex ">
                     <button className="btn btn-neutral px-5 mx-2">Request E-Mail change</button>
                 </div>
             </Form>

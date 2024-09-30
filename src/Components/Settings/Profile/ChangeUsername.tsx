@@ -1,18 +1,17 @@
+import {Form, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {AuthModel} from "pocketbase";
-import {Form, useNavigate} from "react-router-dom";
 import {pocket_base} from "../../../lib/pocket_base.ts";
 
-const ChangePassword = () => {
+const ChangeUsername = () => {
 
     // Page variables
     const [ session, setSession ] = useState<AuthModel | null>(null);
     const navigate = useNavigate();
 
-    // Password change variables
-    const [ oldPassword, setOldPassword ] = useState('');
-    const [ newPassword, setNewPassword ] = useState('');
-    const [ confirmNewPassword, setConfirmNewPassword ] = useState('');
+    // Email change variables
+    const [ currentName, setCurrentName ] = useState('');
+    const [ newName, setNewName ] = useState('');
 
     // Alerts
     const [ errorAlert, setErrorAlert ] = useState(false);
@@ -24,23 +23,19 @@ const ChangePassword = () => {
     useEffect(()=>{
         if(pocket_base.authStore.isValid){
             setSession(pocket_base.authStore.model)
+            setCurrentName(session?.name);
         }
         else{
             navigate("/");
         }
     },[]);
 
-    const changePassword = async (e:any) =>{
+    const changeName = async (e:any) =>{
         e.preventDefault();
         if(!session)return;
-        // Prepare data package for the password update
+        // Prepare data package for the email update
         const data = new FormData();
-        data.append("username", session.username);
-        data.append("emailVisibility", session.emailVisibility);
-        data.append("password", newPassword);
-        data.append("passwordConfirm", confirmNewPassword);
-        data.append("oldPassword", oldPassword);
-        data.append("name", session.name);
+        data.append("username", newName);
 
         await pocket_base.collection('users').update(session.id, data).catch((err:any) => {
             setErrorAlert(true);
@@ -49,55 +44,45 @@ const ChangePassword = () => {
             setTimeout(() => setErrorMessage(''), 5000);
             return;
         });
-        await pocket_base.collection('users').authWithPassword(session.email, newPassword);
+        setTimeout(() => pocket_base.authStore.clear(), 3000);
+        setTimeout(() => navigate("/"), 3000);
         setSuccessAlert(true);
-        setSuccessMessage('Password changed successfully');
-        setTimeout(() => setSuccessAlert(false), 5000);
-        setTimeout(() => setSuccessMessage(''), 5000);
+        setSuccessMessage('Username is changed successfully');
+        setTimeout(() => setSuccessAlert(false), 7000);
+        setTimeout(() => setSuccessMessage(''), 7000);
     }
 
-    return (
+    return(
         <div>
-            <Form onSubmit={changePassword}>
-                <div className=" flex text-3xl">Change your password</div>
+
+            <Form onSubmit={changeName}>
+                <div className="flex text-3xl">Change your password</div>
                 <div className="flex  py-5">
                     <input
                         required={true}
-                        type="password"
-                        placeholder="Enter your old password"
+                        type="text"
+                        placeholder="Enter your current username"
                         className="input input-bordered w-full max-w-xs"
-                        value={oldPassword}
+                        value={currentName}
                         onChange={(e) => {
-                            setOldPassword(e.target.value)
+                            setCurrentName(e.target.value)
                         }}
                     />
                 </div>
                 <div className="flex  py-5">
                     <input
                         required={true}
-                        type="password"
-                        placeholder="Enter your new password"
+                        type="text"
+                        placeholder="Enter your new username"
                         className="input input-bordered w-full max-w-xs"
-                        value={newPassword}
+                        value={newName}
                         onChange={(e) => {
-                            setNewPassword(e.target.value)
-                        }}
-                    />
-                </div>
-                <div className="flex  py-5">
-                    <input
-                        required={true}
-                        type="password"
-                        placeholder="Confirm your new password"
-                        className="input input-bordered w-full max-w-xs"
-                        value={confirmNewPassword}
-                        onChange={(e) => {
-                            setConfirmNewPassword(e.target.value)
+                            setNewName(e.target.value)
                         }}
                     />
                 </div>
                 <div className="flex ">
-                    <button className="btn btn-neutral px-5 mx-2">Change Password</button>
+                    <button className="btn btn-neutral px-5 mx-2">Change Username</button>
                 </div>
             </Form>
             {
@@ -142,4 +127,4 @@ const ChangePassword = () => {
     )
 }
 
-export default ChangePassword;
+export default ChangeUsername
