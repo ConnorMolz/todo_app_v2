@@ -1,10 +1,12 @@
 import {Link, useNavigate} from "react-router-dom";
 import {pocket_base} from "../lib/pocket_base.ts";
-
+//@ts-ignore IDK why the TS-lint is not recognizing the import
+import Jdenticon from 'react-jdenticon';
 
 const NavBar = () =>{
     // navigate for the logout and Todo pages
     const navigate = useNavigate();
+    const session = pocket_base.authStore.model;
     // Logout with navigate to home where the logout is implemented
     function logout(){
         pocket_base.authStore.clear();
@@ -43,7 +45,13 @@ const NavBar = () =>{
             <div className="navbar-center">
                 <Link to={ "/" } className="btn btn-ghost text-xl">Todo App</Link>
             </div>
-            <div className="navbar-end"></div>
+            <div className="navbar-end">
+                <div className="avatar">
+                    <div className="w-12 rounded-full">
+                        <Jdenticon size="48" value={session?.identicon} />
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
