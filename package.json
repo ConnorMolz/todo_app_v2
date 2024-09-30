@@ -18,7 +18,8 @@
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.0.0-rc.16",
+    "@tauri-apps/cli": "^2.0.0-rc.17",
+    "@types/react": "^18.3.9",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.3.2",
