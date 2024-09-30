@@ -1,16 +1,15 @@
 import {Form, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {AuthModel} from "pocketbase";
 import {pocket_base} from "../../../lib/pocket_base.ts";
 
 const ChangeUsername = () => {
 
     // Page variables
-    const [ session, setSession ] = useState<AuthModel | null>(null);
+    const session = pocket_base.authStore.model;
     const navigate = useNavigate();
 
     // Email change variables
-    const [ currentName, setCurrentName ] = useState('');
+    const [ currentName, setCurrentName ] = useState(session?.username);
     const [ newName, setNewName ] = useState('');
 
     // Alerts
@@ -22,8 +21,7 @@ const ChangeUsername = () => {
     // Check Session else redirect the user to the auth page
     useEffect(()=>{
         if(pocket_base.authStore.isValid){
-            setSession(pocket_base.authStore.model)
-            setCurrentName(session?.name);
+            setCurrentName(session?.username);
         }
         else{
             navigate("/");
@@ -59,6 +57,7 @@ const ChangeUsername = () => {
                 <div className="flex text-3xl">Change your password</div>
                 <div className="flex  py-5">
                     <input
+                        disabled={true}
                         required={true}
                         type="text"
                         placeholder="Enter your current username"
