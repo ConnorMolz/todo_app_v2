@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 const editTodo = () =>{
 
