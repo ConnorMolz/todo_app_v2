@@ -23,6 +23,7 @@ const ChangeEmail = () => {
     useEffect(()=>{
         if(pocket_base.authStore.isValid){
             setSession(pocket_base.authStore.model)
+            setCurrentEmail(session?.email);
         }
         else{
             navigate("/");
@@ -56,6 +57,7 @@ const ChangeEmail = () => {
                 <div className="flex text-3xl">Change your password</div>
                 <div className="flex  py-5">
                     <input
+                        disabled={currentEmail !== null}
                         required={true}
                         type="email"
                         placeholder="Enter your current email"
