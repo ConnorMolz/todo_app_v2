@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
+import {invoke} from "@tauri-apps/api/core";
 
 const CreateTodo = () =>{
     // Page variables
@@ -35,6 +36,7 @@ const CreateTodo = () =>{
     // Without this useEffect the page gets not rendered on change of
     // Item status change
     useEffect(() => {
+        invoke("log_in_console", {text1: "Change on Item", text2:""});
         setChangeOnItem(false);
     }, [changeOnItem]);
 
