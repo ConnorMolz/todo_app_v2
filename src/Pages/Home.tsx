@@ -36,10 +36,11 @@ const Home = () =>{
         if(!session) return;
         // The query filter apply the filter at the backend, that the user only get his own todos
         const queryFilter = "user_id = \"" + session.id + "\" && done = false";
-        // Pull the data
+        // Pull and sort(by updated date) the data
         const data = await pocket_base.collection('todos').getFullList(
             {
                 filter: queryFilter,
+                sort: "-updated"
             }
         );
         //@ts-ignore   TODO: update data type later in useState
