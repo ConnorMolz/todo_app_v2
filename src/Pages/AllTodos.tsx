@@ -58,12 +58,13 @@ const AllTodos = () =>{
                 {
                     //@ts-ignore
                     todos.map((todo) => (
-                        <div className='flex-row justify-between bg-neutral-600 p-5 m-5 rounded-lg'>
+                        <div className='flex-row justify-between bg-base-200 p-5 m-5 rounded-lg'>
                             <Link to={`/edit/${todo.id}`}>
                                 <div className=''>
                                     <div>
-                                        <p className='text-neutral-100 text-xl'>{todo.todo_title}</p>
-                                        <p className='text-neutral-300'>{new Date(todo.updated).toLocaleString()}</p>
+                                        <p className='text-xl'>{todo.todo_title}</p>
+                                        <p className=''>Last Update: {new Date(todo.updated).toLocaleString()}</p>
+                                        <p className=''>{todo.dueDate && "Due: " + new Date(todo.dueDate).toLocaleString()}</p>
                                     </div>
                                 </div>
                             </Link>
