@@ -61,7 +61,7 @@ const Home = () =>{
                                 <div className=''>
                                     <div>
                                         <p className='text-neutral-100 text-xl'>{todo.todo_title}</p>
-                                        <p className='text-neutral-300'>{new Date(todo.created).toLocaleString()}</p>
+                                        <p className='text-neutral-300'>{new Date(todo.updated).toLocaleString()}</p>
                                     </div>
                                 </div>
                             </Link>
