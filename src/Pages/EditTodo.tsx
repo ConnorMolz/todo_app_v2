@@ -16,20 +16,9 @@ const editTodo = () =>{
     const [ done, setDone ] = useState(false);
     const [ changeOnItem, setChangeOnItem ] = useState(false);
     const [ picture, setPicture ] = useState<File | null>(null);
+    const [ dueDate, setDueDate ] = useState<Date | null>(null);
 
-    const validateFile = (file: File): boolean => {
-        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (!validTypes.includes(file.type)) {
-            alert('Invalid file type. Please upload an image file (jpeg, png, gif).');
-            return false;
-        }
-        if (file.size > maxSize) {
-            alert('File size exceeds the limit of 5MB.');
-            return false;
-        }
-        return true;
-    };
+
     const [ pictureName, setPictureName ] = useState('');
     const navigate = useNavigate();
     const { todo_id } = useParams();
@@ -66,6 +55,7 @@ const editTodo = () =>{
         setTodoTitle(data.todo_title);
         setTodoDescription(data.todo_description);
         setDone(data.done);
+        setDueDate(data.dueDate);
 
         // Check if a table is already created and if not on table gets rendered
         if(data.table != null){
@@ -110,6 +100,9 @@ const editTodo = () =>{
         data.append("user_id", session.id);
         data.append("done", done.toString());
         data.append("table", JSON.stringify(tableData));
+        if (dueDate){
+            data.append("dueDate", dueDate?.toString());
+        }
         if(picture != null) {
             data.append("image", picture, "image.png");
         }else{
@@ -137,6 +130,12 @@ const editTodo = () =>{
         data.append("user_id", session.id);
         data.append("done", newStatus.toString());
         data.append("table", JSON.stringify(tableData));
+        if (dueDate){
+            data.append("dueDate", dueDate?.toString());
+        }
+        else {
+            data.append("dueDate", "");
+        }
         if(picture != null) {
             data.append("image", picture, "image.png");
         }
@@ -195,6 +194,22 @@ const editTodo = () =>{
 
     }
 
+    // Check if the image file is an image
+    const validateFile = (file: File): boolean => {
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        // If File is invalid return an error and cancel the loading process
+        if (!validTypes.includes(file.type)) {
+            alert('Invalid file type. Please upload an image file (jpeg, png, gif).');
+            return false;
+        }
+        if (file.size > maxSize) {
+            alert('File size exceeds the limit of 5MB.');
+            return false;
+        }
+        return true;
+    };
+
     return(
         <div className="bg-base-100">
             <NavBar/>
@@ -219,6 +234,19 @@ const editTodo = () =>{
                         value={todoDescription}
                         onChange={(e) => {
                             setTodoDescription(e.target.value)
+                        }}
+                    />
+                </div>
+                <div className="flex justify-center py-5">
+                    <input
+                        type="datetime-local"
+                        placeholder="Enter the due date (optional)"
+                        className="input input-bordered w-full max-w-xs"
+                        // @ts-ignore Should be ignored because the value can be null
+                        value={dueDate}
+                        onChange={(e) => {
+                            // @ts-ignore
+                            setDueDate(e.target.value)
                         }}
                     />
                 </div>
@@ -313,11 +341,14 @@ const editTodo = () =>{
                     picture && (
                         <div className="pb-5">
                             <div className="flex justify-center py-5">
-                                <img src={DOMPurify.sanitize(URL.createObjectURL(picture))} alt="Preview" className="w-1/2" />
+                                <img src={DOMPurify.sanitize(URL.createObjectURL(picture))} alt="Preview"
+                                     className="w-1/2"/>
                             </div>
                             <div className="flex justify-center">
                                 <div className="flex justify-center">
-                                    <button className="btn btn-neutral px-5 mx-2" onClick={() => setPicture(null)}>Remove Image</button>
+                                    <button className="btn btn-neutral px-5 mx-2" onClick={() => setPicture(null)}>Remove
+                                        Image
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -326,8 +357,8 @@ const editTodo = () =>{
                 <div className="flex justify-center py-5">
                     <button className="btn btn-neutral px-5 mx-2" onClick={updateTodo}>Update Todo</button>
                     <Link className="btn btn-neutral px-5 mx-2" to={"/"}>Cancel</Link>
-                    { !done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoDone}>Set Done</button>}
-                    { done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoUndone}>Set Undone</button>}
+                    {!done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoDone}>Set Done</button>}
+                    {done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoUndone}>Set Undone</button>}
                 </div>
             </form>
             <div className="justify-center">

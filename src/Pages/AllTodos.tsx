@@ -38,10 +38,11 @@ const AllTodos = () =>{
         if(!session) return;
         // The query filter apply the filter at the backend, that the user only get his own todos
         const queryFilter = "user_id = \"" + session.id + "\"";
-        // Pull the data
+        // Pull and sort(by updated date) the data
         const data = await pocket_base.collection('todos').getFullList(
             {
                 filter: queryFilter,
+                sort: "-updated"
             }
         );
         // Set Page Data
@@ -62,7 +63,7 @@ const AllTodos = () =>{
                                 <div className=''>
                                     <div>
                                         <p className='text-neutral-100 text-xl'>{todo.todo_title}</p>
-                                        <p className='text-neutral-300'>{new Date(todo.created).toLocaleString()}</p>
+                                        <p className='text-neutral-300'>{new Date(todo.updated).toLocaleString()}</p>
                                     </div>
                                 </div>
                             </Link>
