@@ -10,7 +10,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": ">=2.0.0-rc.6",
+    "@tauri-apps/api": ">=2.0.1",
     "@tauri-apps/plugin-shell": ">=2.0.0",
     "dompurify": "^3.1.7",
     "pocketbase": "^0.21.5",
