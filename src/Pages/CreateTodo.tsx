@@ -13,6 +13,7 @@ const CreateTodo = () =>{
     const [ tableData, setTableData ] = useState<{ todo_item_title: string, todo_item_description: string, todo_item_done: boolean }[]>([]);
     const [ changeOnItem, setChangeOnItem ] = useState(false);
     const [ picture, setPicture ] = useState<File | null>(null);
+    const [ dueDate, setDueDate ] = useState<Date | null>(null);
     const navigate = useNavigate();
 
     // New Item at table variables
@@ -52,6 +53,9 @@ const CreateTodo = () =>{
         data.append("user_id", session.id);
         data.append("done", "false");
         data.append("table", JSON.stringify(tableData));
+        if (dueDate){
+            data.append("dueDate", dueDate.toString());
+        }
         if(picture != null) {
             data.append("image", picture, "image.png");
         }
@@ -97,6 +101,8 @@ const CreateTodo = () =>{
 
     }
 
+    // @ts-ignore
+    // @ts-ignore
     return(
         <div className="bg-base-100">
             <NavBar />
@@ -121,6 +127,19 @@ const CreateTodo = () =>{
                         value={todoDescription}
                         onChange={(e) => {
                             setTodoDescription(e.target.value)
+                        }}
+                    />
+                </div>
+                <div className="flex justify-center py-5">
+                    <input
+                        type="datetime-local"
+                        placeholder="Enter the due date (optional)"
+                        className="input input-bordered w-full max-w-xs"
+                        // @ts-ignore Should be ignored because the value can be null
+                        value={dueDate}
+                        onChange={(e) => {
+                            // @ts-ignore
+                            setDueDate(e.target.value)
                         }}
                     />
                 </div>
@@ -213,16 +232,18 @@ const CreateTodo = () =>{
                 </div>
                 {
                     picture && (
-                    <div className="pb-5">
-                        <div className="flex justify-center py-5">
-                            <img src={URL.createObjectURL(picture)} alt="Preview" className="w-1/2" />
-                        </div>
-                        <div className="flex justify-center">
+                        <div className="pb-5">
+                            <div className="flex justify-center py-5">
+                                <img src={URL.createObjectURL(picture)} alt="Preview" className="w-1/2"/>
+                            </div>
                             <div className="flex justify-center">
-                                <button className="btn btn-neutral px-5 mx-2" onClick={() => setPicture(null)}>Remove Image</button>
+                                <div className="flex justify-center">
+                                    <button className="btn btn-neutral px-5 mx-2" onClick={() => setPicture(null)}>Remove
+                                        Image
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     )
                 }
                 <div className="flex justify-center">
