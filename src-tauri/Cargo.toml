@@ -12,7 +12,7 @@ name = "todo_app_lib"
 crate-type = ["lib", "cdylib", "staticlib"]
 
 [build-dependencies]
-tauri-build = { version = "2.0.0", features = [] }
+tauri-build = { version = "2.0.1", features = [] }
 
 [dependencies]
 tauri = { version = "2.0.0", features = [] }
