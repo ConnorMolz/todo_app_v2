@@ -4,6 +4,7 @@ import { pocket_base } from "./lib/pocket_base.ts";
 import { invoke } from "@tauri-apps/api/core";
 import LogInHeader from "./Components/LogInHeader.tsx";
 import { Form, useNavigate } from "react-router-dom";
+import {themeChange} from "theme-change";
 
 
 export default function App() {
@@ -51,6 +52,10 @@ export default function App() {
         setSession(true);
 
     }
+
+    useEffect(() => {
+        themeChange(false)
+    }, [])
 
     // Check session on initial rendering
     useEffect(() => {

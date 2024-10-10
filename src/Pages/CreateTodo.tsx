@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
+import {invoke} from "@tauri-apps/api/core";
 
 const CreateTodo = () =>{
     // Page variables
@@ -13,7 +14,10 @@ const CreateTodo = () =>{
     const [ tableData, setTableData ] = useState<{ todo_item_title: string, todo_item_description: string, todo_item_done: boolean }[]>([]);
     const [ changeOnItem, setChangeOnItem ] = useState(false);
     const [ picture, setPicture ] = useState<File | null>(null);
+    const [ hasImage, setHasImage ] = useState(false);
     const [ dueDate, setDueDate ] = useState<Date | null>(null);
+    const [ hasDueDate, setHasDueDate ] = useState(false);
+    const [ allWidgets, setAllWidgets ] = useState(false);
     const navigate = useNavigate();
 
     // New Item at table variables
@@ -31,10 +35,16 @@ const CreateTodo = () =>{
         }
     },[]);
 
+    // Hook for update the state of the widgets and check if the add button should be displayed
+    useEffect(() => {
+        checkForAllWidgets();
+    }, [hasImage, hasDueDate, hasTable]);
+
     // Renderer for table item, if the done status is changed
     // Without this useEffect the page gets not rendered on change of
     // Item status change
     useEffect(() => {
+        invoke("log_in_console", {text1: "Change on Item", text2:""});
         setChangeOnItem(false);
     }, [changeOnItem]);
 
@@ -101,6 +111,31 @@ const CreateTodo = () =>{
 
     }
 
+    // Function for rendering the Image upload at creation
+    const createFileUpload = (e:any) => {
+        //Prevent reloading
+        e.preventDefault();
+
+        // Create image upload in the UI
+        setHasImage(true);
+    }
+
+    // Function for rendering the due date field at creation
+    const createDueDateFiled = (e:any) => {
+        //Prevent reloading
+        e.preventDefault();
+
+        // Create due date field in the UI
+        setHasDueDate(true);
+
+    }
+
+    // This function checks if all widgets are added
+    // if yes will the button for adding widgets disappear
+    const checkForAllWidgets = () => {
+        setAllWidgets(hasTable && hasImage && hasDueDate);
+    }
+
     // @ts-ignore
     // @ts-ignore
     return(
@@ -130,9 +165,10 @@ const CreateTodo = () =>{
                         }}
                     />
                 </div>
+                { hasDueDate &&
                 <div className="flex justify-center py-5">
                     <input
-                        type="datetime-local"
+                        type="date"
                         placeholder="Enter the due date (optional)"
                         className="input input-bordered w-full max-w-xs"
                         // @ts-ignore Should be ignored because the value can be null
@@ -143,10 +179,18 @@ const CreateTodo = () =>{
                         }}
                     />
                 </div>
+                }
                 {
-                    !hasTable &&
-                    <div className="flex justify-center py-5">
-                        <button className="btn btn-neutral px-5 mx-2" onClick={createTable}>Add Table</button>
+                    !allWidgets &&
+                    <div className="justify-center flex py-5">
+                        <details className="dropdown">
+                            <summary className="btn m-1">Add Widgets</summary>
+                            <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                {!hasDueDate && <li><button onClick={createDueDateFiled}>Add due Date</button></li>}
+                                {!hasTable && <li><button onClick={createTable}>Add List</button></li>}
+                                {!hasImage && <li><button onClick={createFileUpload}>Add Image</button></li>}
+                            </ul>
+                        </details>
                     </div>
                 }
                 {
@@ -218,6 +262,7 @@ const CreateTodo = () =>{
                     </div>
 
                 }
+                {hasImage &&
                 <div className="flex justify-center py-5">
                     <input
                         type="file"
@@ -230,6 +275,7 @@ const CreateTodo = () =>{
                         }}
                     />
                 </div>
+                }
                 {
                     picture && (
                         <div className="pb-5">

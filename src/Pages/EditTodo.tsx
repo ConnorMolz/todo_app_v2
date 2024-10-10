@@ -10,7 +10,10 @@ const editTodo = () =>{
     // Page variables
     const [ todoTitle, setTodoTitle ] = useState('');
     const [ todoDescription, setTodoDescription ] = useState('');
+    const [ hasDueDate, setHasDueDate ] = useState(false);
+    const [ hasImage, setHasImage ] = useState(false);
     const [ hasTable, setHasTable ] = useState(false);
+    const [ allWidgets, setAllWidgets ] = useState(false);
     const [ tableData, setTableData ] = useState<{ todo_item_title: string, todo_item_description: string, todo_item_done: boolean }[]>([]);
     const [ session, setSession ] = useState<AuthModel | null>(null);
     const [ done, setDone ] = useState(false);
@@ -46,6 +49,11 @@ const editTodo = () =>{
         setChangeOnItem(false);
     }, [changeOnItem]);
 
+    // Hook for update the state of the widgets and check if the add button should be displayed
+    useEffect(() => {
+        checkForAllWidgets();
+    }, [hasImage, hasDueDate, hasTable]);
+
     // Function, which pull the entry by ID from the backend
     async function getTodo(id :any) {
         // Pull the data
@@ -55,7 +63,10 @@ const editTodo = () =>{
         setTodoTitle(data.todo_title);
         setTodoDescription(data.todo_description);
         setDone(data.done);
-        setDueDate(data.dueDate);
+        if(data.dueDate){
+            setHasDueDate(true);
+            setDueDate(data.dueDate);
+        }
 
         // Check if a table is already created and if not on table gets rendered
         if(data.table != null){
@@ -80,6 +91,7 @@ const editTodo = () =>{
             //@ts-ignore is needed by type Script because this endpoint will
             // return always an image file
             setPicture(await request.blob());
+            setHasImage(true);
         }
 
     }
@@ -194,6 +206,31 @@ const editTodo = () =>{
 
     }
 
+    // Function for rendering the Image upload at creation
+    const createFileUpload = (e:any) => {
+        //Prevent reloading
+        e.preventDefault();
+
+        // Create image upload in the UI
+        setHasImage(true);
+    }
+
+    // Function for rendering the due date field at creation
+    const createDueDateFiled = (e:any) => {
+        //Prevent reloading
+        e.preventDefault();
+
+        // Create due date field in the UI
+        setHasDueDate(true);
+
+    }
+
+    // This function checks if all widgets are added
+    // if yes will the button for adding widgets disappear
+    const checkForAllWidgets = () => {
+        setAllWidgets(hasTable && hasImage && hasDueDate);
+    }
+
     // Check if the image file is an image
     const validateFile = (file: File): boolean => {
         const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -237,23 +274,32 @@ const editTodo = () =>{
                         }}
                     />
                 </div>
-                <div className="flex justify-center py-5">
-                    <input
-                        type="datetime-local"
-                        placeholder="Enter the due date (optional)"
-                        className="input input-bordered w-full max-w-xs"
-                        // @ts-ignore Should be ignored because the value can be null
-                        value={dueDate}
-                        onChange={(e) => {
-                            // @ts-ignore
-                            setDueDate(e.target.value)
-                        }}
-                    />
-                </div>
-                {
-                    !hasTable &&
+                { hasDueDate &&
                     <div className="flex justify-center py-5">
-                        <button className="btn btn-neutral px-5 mx-2" onClick={createTable}>Add Table</button>
+                        <input
+                            type="date"
+                            placeholder="Enter the due date (optional)"
+                            className="input input-bordered w-full max-w-xs"
+                            // @ts-ignore Should be ignored because the value can be null
+                            value={dueDate}
+                            onChange={(e) => {
+                                // @ts-ignore
+                                setDueDate(e.target.value)
+                            }}
+                        />
+                    </div>
+                }
+                {
+                    !allWidgets &&
+                    <div className="justify-center flex py-5">
+                        <details className="dropdown">
+                            <summary className="btn m-1">Add Widgets</summary>
+                            <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                {!hasDueDate && <li><button onClick={createDueDateFiled}>Add due Date</button></li>}
+                                {!hasTable && <li><button onClick={createTable}>Add List</button></li>}
+                                {!hasImage && <li><button onClick={createFileUpload}>Add Image</button></li>}
+                            </ul>
+                        </details>
                     </div>
                 }
                 {
@@ -317,6 +363,7 @@ const editTodo = () =>{
                             </tr>
                             </tbody>
                         </table>
+
                         <div className="flex justify-center py-5">
                             <button className="btn btn-neutral px-5 mx-2" onClick={addItem}>Add item</button>
                         </div>
@@ -324,19 +371,20 @@ const editTodo = () =>{
                     </div>
 
                 }
-
-                <div className="flex justify-center py-5">
-                    <input
-                        type="file"
-                        className="file-input file-input-bordered w-full max-w-xs"
-                        accept="image/*"
-                        onChange={(e) => {
-                            if (e.target.files && validateFile(e.target.files[0])) {
-                                setPicture(e.target.files[0]);
-                            }
-                        }}
-                    />
-                </div>
+                { hasImage &&
+                    <div className="flex justify-center py-5">
+                        <input
+                            type="file"
+                            className="file-input file-input-bordered w-full max-w-xs"
+                            accept="image/*"
+                            onChange={(e) => {
+                                if (e.target.files && validateFile(e.target.files[0])) {
+                                    setPicture(e.target.files[0]);
+                                }
+                            }}
+                        />
+                    </div>
+                }
                 {
                     picture && (
                         <div className="pb-5">
