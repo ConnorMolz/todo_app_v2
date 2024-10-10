@@ -35,6 +35,7 @@ const CreateTodo = () =>{
         }
     },[]);
 
+    // Hook for update the state of the widgets and check if the add button should be displayed
     useEffect(() => {
         checkForAllWidgets();
     }, [hasImage, hasDueDate, hasTable]);
