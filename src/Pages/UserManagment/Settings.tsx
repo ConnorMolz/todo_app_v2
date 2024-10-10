@@ -8,7 +8,7 @@ const Settings = () =>{
     return(
         <div>
             <NavBar/>
-            <details className="collapse bg-base-200">
+            <details className="collapse collapse-arrow border-base-300 bg-base-200 border">
                 <summary className="collapse-title text-xl font-medium">Account Management</summary>
                 <div className="collapse-content">
                     <div className="justify-left">
@@ -18,11 +18,11 @@ const Settings = () =>{
                     </div>
                 </div>
             </details>
-            <details className="collapse bg-base-200">
+            <details className="collapse collapse-arrow border-base-300 bg-base-200 border">
                 <summary className="collapse-title text-xl font-medium">Appearance Settings</summary>
                 <div className="collapse-content">
                     <div className="justify-left">
-                        <ThemeChooser />
+                        <ThemeChooser/>
                     </div>
                 </div>
             </details>
