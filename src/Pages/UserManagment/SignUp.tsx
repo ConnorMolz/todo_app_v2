@@ -2,6 +2,7 @@ import LogInHeader from "../../Components/LogInHeader.tsx";
 import {Form, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {pocket_base} from "../../lib/pocket_base.ts";
+import { generateRandomString } from "../../lib/generatIdenticonString.ts";
 
 const SignUp = () => {
 
@@ -36,7 +37,8 @@ const SignUp = () => {
             "password": password,
             "passwordConfirm": repeatPassword,
             "emailVisibility": true,
-            "name": ""
+            "name": "",
+            "identicon": generateRandomString(10)
         };
 
         // Check if the mail is already in use
