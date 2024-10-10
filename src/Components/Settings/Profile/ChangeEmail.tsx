@@ -54,7 +54,7 @@ const ChangeEmail = () => {
         <div>
 
             <Form onSubmit={changeMail}>
-                <div className="flex text-3xl">Change your password</div>
+                <div className="flex text-3xl">Change your E-Mail address</div>
                 <div className="flex  py-5">
                     <input
                         disabled={currentEmail !== null}

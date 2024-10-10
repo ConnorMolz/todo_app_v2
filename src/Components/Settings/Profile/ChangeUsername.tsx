@@ -54,7 +54,7 @@ const ChangeUsername = () => {
         <div>
 
             <Form onSubmit={changeName}>
-                <div className="flex text-3xl">Change your password</div>
+                <div className="flex text-3xl">Change your username</div>
                 <div className="flex  py-5">
                     <input
                         disabled={true}
