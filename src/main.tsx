@@ -9,7 +9,7 @@ import CreateTodo from "./Pages/CreateTodo.tsx";
 import EditTodo from "./Pages/EditTodo.tsx";
 import Home from "./Pages/Home.tsx";
 import AllTodos from "./Pages/AllTodos.tsx";
-import SingUp from "./Pages/UserManagment/SingUp.tsx";
+import SignUp from "./Pages/UserManagment/SignUp.tsx";
 import ForgotPassword from "./Pages/UserManagment/ForgotPassword.tsx";
 import Settings from "./Pages/UserManagment/Settings.tsx";
 
@@ -38,10 +38,10 @@ const router = createBrowserRouter([
         path: "/edit/:todo_id",
         element: <EditTodo />,
     },
-    // User Management and SingUp + Validations
+    // User Management and SignUp + Validations
     {
-        path: "/singUp",
-        element: <SingUp />,
+        path: "/signUp",
+        element: <SignUp />,
     },
     {
         path:"/user/forgotPassword",

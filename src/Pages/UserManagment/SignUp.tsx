@@ -3,7 +3,7 @@ import {Form, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {pocket_base} from "../../lib/pocket_base.ts";
 
-const SingUp = () => {
+const SignUp = () => {
 
     // Page variables
     const [ username, setUsername ] = useState("");
@@ -215,4 +215,4 @@ const SingUp = () => {
     )
 }
 
-export default SingUp
+export default SignUp

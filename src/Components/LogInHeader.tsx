@@ -26,7 +26,7 @@ const LogInHeader = () => {
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             <li><Link to={"/"}>Log In</Link></li>
-                            <li><Link to={"/singUp"}>Sing Up</Link></li>
+                            <li><Link to={"/signUp"}>Sign Up</Link></li>
                             <li><Link to={"/user/forgotPassword"}>Forgot Password</Link></li>
                         </ul>
                     </div>
