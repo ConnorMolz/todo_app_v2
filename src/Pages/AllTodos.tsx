@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {JSXElementConstructor, ReactElement, ReactNode, ReactPortal, useEffect, useState} from "react";
 import NavBar from "../Components/NavBar.tsx";
 import { Link, useNavigate } from 'react-router-dom';
 import { pocket_base } from "../lib/pocket_base.ts";
@@ -10,6 +10,7 @@ const AllTodos = () =>{
 
     // Page Variables
     const [ session, setSession ] = useState<AuthModel | null>(null);
+    const [ loading, setLoading ] = useState(true);
     const [ todos, setTodos ] = useState<RecordModel | []>([])
     // Navigator for send back if the session is invalid
     const navigate = useNavigate();
@@ -28,8 +29,11 @@ const AllTodos = () =>{
 
     // After the session is set pull all todos
     useEffect(() => {
-        if (session) getTodos().then();
-    },[session]);
+        if (session) {
+            setLoading(true);
+            getTodos().then(() => {setLoading(false)});
+        }
+    }, [session]);
 
     // Get todos from backend
     async function getTodos() {
@@ -55,9 +59,12 @@ const AllTodos = () =>{
         <div className="bg-base-100">
             <NavBar />
             <div className="flex-1 justify-center py-12">
-                {
-                    //@ts-ignore
-                    todos.map((todo) => (
+                { !loading &&
+                    todos.map((todo: {
+                        id: any;
+                        todo_title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined;
+                        updated: string | number | Date;
+                        dueDate: string | number | Date; }) => (
                         <div className='flex-row justify-between bg-base-200 p-5 m-5 rounded-lg'>
                             <Link to={`/edit/${todo.id}`}>
                                 <div className=''>
@@ -72,6 +79,7 @@ const AllTodos = () =>{
                         </div>
                     ))
                 }
+                {loading && <div className="skeleton h-32 w-full"></div>}
             </div>
         </div>
     )
