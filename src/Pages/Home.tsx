@@ -46,6 +46,7 @@ const Home = () => {
                 sort: "-updated"
             }
         );
+        console.log(data);
         //@ts-ignore   TODO: update data type later in useState
         // Set page data
         setTodos(data);
