@@ -41,7 +41,7 @@ const AllTodos = () =>{
         if(!session)setTimeout(() => getTodos(), 1000);
         if(!session) return;
         // The query filter apply the filter at the backend, that the user only get his own todos
-        const queryFilter = "user_id = \"" + session.id + "\"";
+        const queryFilter = "user_id ?~ \"" + session.id + "\"";
         // Pull and sort(by updated date) the data
         const data = await pocket_base.collection('todos').getFullList(
             {
