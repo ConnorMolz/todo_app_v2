@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
-import {invoke} from "@tauri-apps/api/core";
 
 const CreateTodo = () =>{
     // Page variables
@@ -49,7 +48,6 @@ const CreateTodo = () =>{
     // Without this useEffect the page gets not rendered on change of
     // Item status change
     useEffect(() => {
-        invoke("log_in_console", {text1: "Change on Item", text2:""});
         setChangeOnItem(false);
     }, [changeOnItem]);
 
@@ -74,6 +72,11 @@ const CreateTodo = () =>{
         if(picture != null) {
             data.append("image", picture, "image.png");
         }
+        if(users.length > 0) {
+            for(let i = 0; i < users.length; i++) {
+                data.append("user_id", await getUserId(users[i]));
+            }
+        }
 
         // Add entry to the backend
         await pocket_base.collection('todos').create(data);
@@ -81,6 +84,16 @@ const CreateTodo = () =>{
         // Navigate to the home page after check the session
         navigate("/");
 
+    }
+
+    const getUserId = async (email: string):Promise<string> => {
+        // @ts-ignore is a pocket base error
+        const records = await pocket_base.collection('users').getFullList();
+        const user = records.find((record) => record.email === email);
+        if(!user){
+            throw new Error("User not found");
+        }
+        return user?.id;
     }
 
     // Add Item to table
