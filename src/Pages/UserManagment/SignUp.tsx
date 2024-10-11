@@ -4,7 +4,7 @@ import {useState} from "react";
 import {pocket_base} from "../../lib/pocket_base.ts";
 import { generateRandomString } from "../../lib/generatIdenticonString.ts";
 
-const SingUp = () => {
+const SignUp = () => {
 
     // Page variables
     const [ username, setUsername ] = useState("");
@@ -217,4 +217,4 @@ const SingUp = () => {
     )
 }
 
-export default SingUp
+export default SignUp

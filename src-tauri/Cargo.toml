@@ -1,6 +1,6 @@
 [package]
 name = "todo_app"
-version = "0.3.1"
+version = "0.4.0"
 description = "A Tauri App"
 authors = ["you"]
 edition = "2021"
@@ -12,11 +12,11 @@ name = "todo_app_lib"
 crate-type = ["lib", "cdylib", "staticlib"]
 
 [build-dependencies]
-tauri-build = { version = "2.0.0-rc", features = [] }
+tauri-build = { version = "2.0.1", features = [] }
 
 [dependencies]
-tauri = { version = "2.0.0-rc.16", features = [] }
-tauri-plugin-shell = "2.0.0-rc"
+tauri = { version = "2.0.2", features = [] }
+tauri-plugin-shell = "2.0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
