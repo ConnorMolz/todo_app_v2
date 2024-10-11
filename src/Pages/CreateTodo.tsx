@@ -18,6 +18,11 @@ const CreateTodo = () =>{
     const [ dueDate, setDueDate ] = useState<Date | null>(null);
     const [ hasDueDate, setHasDueDate ] = useState(false);
     const [ allWidgets, setAllWidgets ] = useState(false);
+    const [ hasMoreUsers, setHasMoreUsers ] = useState(false);
+    const [ users, setUsers ] = useState<string[]>([]);
+    const [ inputColor, setInputColor ] = useState('input-neutral');
+    const [ possibleUsers, setPossibleUsers ] = useState<string[]>([]);
+    const [ userInput, setUserInput ] = useState('');
     const navigate = useNavigate();
 
     // New Item at table variables
@@ -38,7 +43,7 @@ const CreateTodo = () =>{
     // Hook for update the state of the widgets and check if the add button should be displayed
     useEffect(() => {
         checkForAllWidgets();
-    }, [hasImage, hasDueDate, hasTable]);
+    }, [hasImage, hasDueDate, hasTable, hasMoreUsers]);
 
     // Renderer for table item, if the done status is changed
     // Without this useEffect the page gets not rendered on change of
@@ -133,15 +138,50 @@ const CreateTodo = () =>{
     // This function checks if all widgets are added
     // if yes will the button for adding widgets disappear
     const checkForAllWidgets = () => {
-        setAllWidgets(hasTable && hasImage && hasDueDate);
+        setAllWidgets(hasTable && hasImage && hasDueDate && hasMoreUsers);
     }
 
-    // @ts-ignore
-    // @ts-ignore
+    // Function for the search of users in the backend
+    const getUsers = async (e:any) => {
+        // prevent reloading
+        e.preventDefault();
+
+        // Activate the UI
+        setHasMoreUsers(true);
+
+        // Get all possible users
+        // @ts-ignore is a pocket base error
+        const records = await pocket_base.collection('users').getFullList({
+            fields: ['email']
+        });
+        setPossibleUsers(records.map((record) => record.email));
+
+
+    }
+
+    useEffect(() => {
+        console.log(possibleUsers);
+    }, [possibleUsers]);
+
+    const addUser = (e:any) => {
+        e.preventDefault();
+        if (userInput === '') {
+            setInputColor('input-error');
+            return;
+        }
+        if (!possibleUsers.includes(userInput)) {
+            setInputColor('input-error');
+            return;
+        }
+        setUsers([...users, userInput]);
+        setInputColor('input-neutral');
+        setUserInput('');
+    }
+
     return(
         <div className="bg-base-100">
             <NavBar />
-            <form onSubmit={addTodo}>
+            <form>
                 <div className="flex justify-center py-5">
                     <input
                         required={true}
@@ -189,6 +229,7 @@ const CreateTodo = () =>{
                                 {!hasDueDate && <li><button onClick={createDueDateFiled}>Add due Date</button></li>}
                                 {!hasTable && <li><button onClick={createTable}>Add List</button></li>}
                                 {!hasImage && <li><button onClick={createFileUpload}>Add Image</button></li>}
+                                {!hasMoreUsers && <li><button onClick={getUsers}>Add Users</button></li>}
                             </ul>
                         </details>
                     </div>
@@ -292,8 +333,40 @@ const CreateTodo = () =>{
                         </div>
                     )
                 }
+                {
+                    hasMoreUsers &&
+                    <div className="">
+
+                        <div className="flex justify-center py-5">
+                            <input
+                                type="text"
+                                placeholder="Type something"
+                                className={`input ${inputColor} w-full max-w-xs input-bordered`}
+                                value={userInput}
+                                onChange={(e) => {
+                                    setUserInput(e.target.value)
+                                }}
+                            />
+                            <button onClick={(e:any) => addUser(e)} className="btn btn-neutral px-5 mx-2">Add User</button>
+                        </div>
+                        <div className="flex justify-center py-5">
+                            {
+                                users.length > 0 &&
+                                <div className="flex justify-center py-5">
+                                    <div className="flex justify-center">
+                                        <ul>
+                                            {users.map((user) => (
+                                                <li>{user}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
                 <div className="flex justify-center">
-                    <button className="btn btn-neutral px-5 mx-2">Add Todo</button>
+                    <button className="btn btn-neutral px-5 mx-2" onClick={addTodo}>Add Todo</button>
                     <Link className="btn btn-neutral px-5 mx-2" to={"/"}>Cancel</Link>
                 </div>
             </form>
