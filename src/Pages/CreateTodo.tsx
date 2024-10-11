@@ -177,15 +177,19 @@ const CreateTodo = () =>{
     }, [possibleUsers]);
 
     const addUser = (e:any) => {
+        // Prevent reloading
         e.preventDefault();
+        // Check if the user input is empty
         if (userInput === '') {
             setInputColor('input-error');
             return;
         }
+        // Check if requested user is existing if not throw error
         if (!possibleUsers.includes(userInput)) {
             setInputColor('input-error');
             return;
         }
+        // Add user and clean up the input field
         setUsers([...users, userInput]);
         setInputColor('input-neutral');
         setUserInput('');
