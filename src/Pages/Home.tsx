@@ -108,7 +108,7 @@ const Home = () => {
                                     <div>
                                         <p className='text-xl'>{todo.todo_title}</p>
                                         <p className=''>Last Update: {new Date(todo.updated).toLocaleString()}</p>
-                                        <p className=''>{todo.dueDate && "Due: " + new Date(todo.dueDate).toLocaleString()}</p>
+                                        <p className=''>{todo.dueDate && "Due: " + new Date(todo.dueDate).toDateString()}</p>
                                     </div>
                                 </div>
                             </Link>
