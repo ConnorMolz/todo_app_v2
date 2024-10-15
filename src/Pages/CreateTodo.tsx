@@ -329,7 +329,10 @@ const CreateTodo = () =>{
                         accept="image/*"
                         onChange={(e) => {
                             if (e.target.files) {
-                                setPicture(e.target.files[0]);
+                                const file = e.target.files[0];
+                                if (file && file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024) { // 5MB limit
+                                    setPicture(file);
+                                }
                             }
                         }}
                     />
