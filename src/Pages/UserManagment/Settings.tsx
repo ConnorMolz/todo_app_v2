@@ -13,7 +13,9 @@ const Settings = () =>{
                 <div className="collapse-content">
                     <div className="justify-left">
                         <ChangePassword/>
+                        <div className="divider"></div>
                         <ChangeEmail/>
+                        <div className="divider"></div>
                         <ChangeUsername/>
                     </div>
                 </div>
