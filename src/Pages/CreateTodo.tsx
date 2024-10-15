@@ -77,6 +77,7 @@ const CreateTodo = () =>{
                 data.append("user_id", await getUserId(users[i]));
             }
         }
+        data.append("owner", session.id);
 
         // Add entry to the backend
         await pocket_base.collection('todos').create(data);
@@ -241,7 +242,7 @@ const CreateTodo = () =>{
                     !allWidgets &&
                     <div className="justify-center flex py-5">
                         <details className="dropdown">
-                            <summary className="btn m-1">Add Widgets</summary>
+                            <summary className="btn btn-neutral m-1">Add Widgets</summary>
                             <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                                 {!hasDueDate && <li><button onClick={createDueDateFiled}>Add due Date</button></li>}
                                 {!hasTable && <li><button onClick={createTable}>Add List</button></li>}
