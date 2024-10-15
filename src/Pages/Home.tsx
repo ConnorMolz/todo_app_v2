@@ -69,7 +69,7 @@ const Home = () => {
     return (
         <div className="bg-base-100">
             <NavBar/>
-            <div className="justify-center flex py-5">
+            <div className="justify-center flex pt-5">
                 <details className="dropdown">
                     <summary className="btn btn-neutral m-1">Toggle Filter</summary>
                     <ul className="menu dropdown-content bg-base-200 rounded-box z-[1] w-52 p-2">
@@ -86,7 +86,7 @@ const Home = () => {
                     </ul>
                 </details>
             </div>
-            <div className="flex-1 justify-center py-12">
+            <div className="flex-1 justify-center">
                 {!loading &&
                     todos.map((todo: {
                         id: any;
