@@ -1,8 +1,8 @@
 [package]
 name = "todo_app"
-version = "0.4.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.4.1"
+description = "Todo app"
+authors = ["Connor Molz"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

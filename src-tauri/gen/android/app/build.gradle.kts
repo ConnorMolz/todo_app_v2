@@ -18,7 +18,7 @@ android {
     compileSdk = 34
     namespace = "com.cmolz.todo.app"
     defaultConfig {
-        manifestPlaceholders["usesCleartextTraffic"] = "false"
+        manifestPlaceholders["usesCleartextTraffic"] = "true"
         applicationId = "com.cmolz.todo.app"
         minSdk = 24
         targetSdk = 34
