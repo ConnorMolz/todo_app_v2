@@ -12,6 +12,7 @@ const AllTodos = () =>{
     const [ session, setSession ] = useState<AuthModel | null>(null);
     const [ loading, setLoading ] = useState(true);
     const [ todos, setTodos ] = useState<RecordModel | []>([])
+    const [ filterForOwnTodos, setFilterForOwnTodos ] = useState(false);
     // Navigator for send back if the session is invalid
     const navigate = useNavigate();
 
@@ -33,7 +34,7 @@ const AllTodos = () =>{
             setLoading(true);
             getTodos().then(() => {setLoading(false)});
         }
-    }, [session]);
+    }, [session, filterForOwnTodos]);
 
     // Get todos from backend
     async function getTodos() {
@@ -41,7 +42,13 @@ const AllTodos = () =>{
         if(!session)setTimeout(() => getTodos(), 1000);
         if(!session) return;
         // The query filter apply the filter at the backend, that the user only get his own todos
-        const queryFilter = "user_id ?~ \"" + session.id + "\"";
+        let queryFilter:string;
+        if(filterForOwnTodos) {
+            queryFilter = "user_id ?~ \"" + session.id + "\" && owner = \"" + session.id + "\"";
+        }
+        else {
+            queryFilter = "user_id ?~ \"" + session.id + "\"";
+        }
         // Pull and sort(by updated date) the data
         const data = await pocket_base.collection('todos').getFullList(
             {
@@ -57,14 +64,33 @@ const AllTodos = () =>{
 
     return(
         <div className="bg-base-100">
-            <NavBar />
+            <NavBar/>
+            <div className="justify-center flex py-5">
+                <details className="dropdown">
+                    <summary className="btn btn-neutral m-1">Toggle Filter</summary>
+                    <ul className="menu dropdown-content bg-base-200 rounded-box z-[1] w-52 p-2">
+                        <li>
+                            <div className="flex justify-center">
+                                <button
+                                    className="hover"
+                                    onClick={() => setFilterForOwnTodos(!filterForOwnTodos)}
+                                >
+                                    {filterForOwnTodos ? 'Show All Todos' : 'Show My Todos'}
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </details>
+            </div>
             <div className="flex-1 justify-center py-12">
-                { !loading &&
+                {!loading &&
+
                     todos.map((todo: {
                         id: any;
                         todo_title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined;
                         updated: string | number | Date;
-                        dueDate: string | number | Date; }) => (
+                        dueDate: string | number | Date;
+                    }) => (
                         <div className='flex-row justify-between bg-base-200 p-5 m-5 rounded-lg'>
                             <Link to={`/edit/${todo.id}`}>
                                 <div className=''>
