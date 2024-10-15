@@ -74,7 +74,7 @@ const editTodo = () =>{
         }
 
         // Check if a table is already created and if not on table gets rendered
-        if(data.table != null){
+        if(data.table.length > 0){
             setTableData(data.table);
             setHasTable(true);
         }
