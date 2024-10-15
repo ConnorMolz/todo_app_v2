@@ -30,6 +30,13 @@ const ChangeEmail = () => {
         }
     },[]);
 
+    // Hook for mail setting in field
+    useEffect(()=>{
+        if(session){
+            setCurrentEmail(session.email);
+        }
+    },[session]);
+
     const changeMail = async (e:any) =>{
         e.preventDefault();
         if(!session)return;
