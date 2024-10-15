@@ -77,6 +77,7 @@ const CreateTodo = () =>{
                 data.append("user_id", await getUserId(users[i]));
             }
         }
+        data.append("owner", session.id);
 
         // Add entry to the backend
         await pocket_base.collection('todos').create(data);
