@@ -53,6 +53,9 @@ const router = createBrowserRouter([
     },
 ])
 
+// Include i18n
+import './lib/i18n.ts';
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
       <RouterProvider router={router} />

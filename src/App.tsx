@@ -5,9 +5,12 @@ import { invoke } from "@tauri-apps/api/core";
 import LogInHeader from "./Components/LogInHeader.tsx";
 import { Form, useNavigate } from "react-router-dom";
 import {themeChange} from "theme-change";
+import { useTranslation, Trans } from 'react-i18next';
 
 
 export default function App() {
+    // Translation
+    const { t } = useTranslation();
 
     // Page variables
     const [ session, setSession ] = useState<boolean>(false)
@@ -97,7 +100,7 @@ export default function App() {
                             <input
                                 type="email"
                                 className="grow"
-                                placeholder="Email"
+                                placeholder={t('loginPage.email')}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required={true}
@@ -127,7 +130,7 @@ export default function App() {
                         </label>
                     </div>
                     <div className="flex justify-center">
-                        <button className="btn btn-neutral">Log In</button>
+                        <button className="btn btn-neutral"><Trans i18nKey="loginPage.login">Log In</Trans></button>
                     </div>
                 </Form>
                 { authError &&
