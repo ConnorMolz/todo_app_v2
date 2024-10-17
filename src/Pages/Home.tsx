@@ -3,10 +3,10 @@ import NavBar from "../Components/NavBar.tsx";
 import {Link, useNavigate} from 'react-router-dom';
 import {pocket_base} from "../lib/pocket_base.ts";
 import {AuthModel, RecordModel} from "pocketbase";
+import {Trans} from "react-i18next";
 
 
 const Home = () => {
-
     // Page Variables
     const [session, setSession] = useState<AuthModel | null>(null);
     const [loading, setLoading] = useState(true);
@@ -89,7 +89,7 @@ const Home = () => {
                             className="hover"
                             onClick={() => setFilterForOwnTodos(!filterForOwnTodos)}
                         >
-                            {filterForOwnTodos ? 'Show All Todos' : 'Show Only My Todos'}
+                            {filterForOwnTodos ? <Trans i18nKey="home.allTodos" /> : <Trans i18nKey="home.ownTodos" /> }
                         </button>
                     </li>
                 </ul>

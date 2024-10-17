@@ -34,6 +34,10 @@ i18n
                         settings: "Settings",
                         logout: "Logout"
                     },
+                    home: {
+                        ownTodos: "Show Only My Todos",
+                        allTodos: "Show All Todos",
+                    }
                     }
                 }
             }

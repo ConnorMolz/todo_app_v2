@@ -45,7 +45,7 @@ const NavBar = () =>{
                 </div>
             </div>
             <div className="navbar-center">
-                <Link to={ "/" } className="btn btn-ghost text-xl">Todo App</Link>
+                <Link to={ "/" } className="btn btn-ghost text-xl">{t('appTitle')}</Link>
             </div>
             <div className="navbar-end">
                 <div className="dropdown dropdown-end">
