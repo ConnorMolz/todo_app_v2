@@ -19,6 +19,7 @@ i18n
         resources: {
             en: {
                 translation: {
+                    appTitle: "Todo App",
                     loginPage:{
                         email: "Email",
                         password: "Password",
