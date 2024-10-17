@@ -1,8 +1,11 @@
 import {Form, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {pocket_base} from "../../../lib/pocket_base.ts";
+import {useTranslation} from "react-i18next";
 
 const ChangeUsername = () => {
+    // Translation
+    const { t } = useTranslation();
 
     // Page variables
     const session = pocket_base.authStore.model;
@@ -54,13 +57,13 @@ const ChangeUsername = () => {
         <div>
 
             <Form onSubmit={changeName}>
-                <div className="flex text-3xl">Change your username</div>
+                <div className="flex text-3xl">{t('settings.account.changeUsername.title')}</div>
                 <div className="flex  py-5">
                     <input
                         disabled={true}
                         required={true}
                         type="text"
-                        placeholder="Enter your current username"
+                        placeholder={t('settings.account.changeUsername.currentUsername')}
                         className="input input-bordered w-full max-w-xs"
                         value={currentName}
                         onChange={(e) => {
@@ -72,7 +75,7 @@ const ChangeUsername = () => {
                     <input
                         required={true}
                         type="text"
-                        placeholder="Enter your new username"
+                        placeholder={t('settings.account.changeUsername.newUsername')}
                         className="input input-bordered w-full max-w-xs"
                         value={newName}
                         onChange={(e) => {
@@ -81,7 +84,7 @@ const ChangeUsername = () => {
                     />
                 </div>
                 <div className="flex ">
-                    <button className="btn btn-neutral px-5 mx-2">Change Username</button>
+                    <button className="btn btn-neutral px-5 mx-2">{t('settings.account.changeUsername.change')}</button>
                 </div>
             </Form>
             {

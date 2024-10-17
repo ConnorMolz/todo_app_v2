@@ -37,6 +37,41 @@ i18n
                     home: {
                         ownTodos: "Show Only My Todos",
                         allTodos: "Show All Todos",
+                    },
+                    settings:{
+                        account: {
+                            title: "Account Management",
+                            changePassword: {
+                                title: "Change your Password",
+                                currentPassword: "Enter your current Password",
+                                newPassword: "Enter your new Password",
+                                confirmPassword: "Confirm your new Password",
+                                change: "Change Password",
+                            },
+                            changeEmail: {
+                                title: "Change your E-Mail address",
+                                currentEmail: "Enter your current E-Mail address",
+                                newEmail: "Enter your new E-Mail address",
+                                change: "Request your E-Mail address Change",
+                            },
+                            changeUsername: {
+                                title: "Change Username",
+                                currentUsername: "Enter your current Username",
+                                newUsername: "Enter your new Username",
+                                change: "Change your Username",
+                            },
+                        },
+                        appearance: {
+                            title: "Appearance Settings",
+                            themeTitle: "Choose Your Theme",
+                            options: {
+                                default: "Default",
+                                dark: "Dark",
+                                light: "Light",
+                                corporate: "Corporate",
+                                aqua: "Aqua",
+                            },
+                        },
                     }
                     }
                 }
