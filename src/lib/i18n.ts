@@ -27,7 +27,13 @@ i18n
                         signUp: "Sign Up",
                         forgotPassword: "Forgot Password",
                     },
-
+                    navBar: {
+                        home: "Home",
+                        addTodo: "Add Todo",
+                        allTodos: "All Todos",
+                        settings: "Settings",
+                        logout: "Logout"
+                    },
                     }
                 }
             }
