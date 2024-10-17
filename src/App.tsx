@@ -122,7 +122,7 @@ export default function App() {
                             <input
                                 type="password"
                                 className="grow"
-                                placeholder="Password"
+                                placeholder={t('loginPage.password')}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required={true}
