@@ -82,8 +82,8 @@ export const en = {
             },
             appearance: {
                 title: "Appearance Settings",
-                themeTitle: "Choose Your Theme",
                 options: {
+                    title: "Choose Your Theme",
                     default: "Default",
                     dark: "Dark",
                     light: "Light",
