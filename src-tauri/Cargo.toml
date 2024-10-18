@@ -1,6 +1,6 @@
 [package]
 name = "todo_app"
-version = "0.4.1"
+version = "0.5.0"
 description = "Todo app"
 authors = ["Connor Molz"]
 edition = "2021"
