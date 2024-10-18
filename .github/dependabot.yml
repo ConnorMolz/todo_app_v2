@@ -5,13 +5,22 @@
 
 version: 2
 updates:
+#NPM (Javascript / Typescript dependcies)
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+     # Add reviewers
+    reviewers:
+      - "ConnorMolz"
     target-branch: "develop"
+
+#Cargo (Rust dependcies)
   - package-ecosystem: "cargo"
     directory: "/src-tauri/"
     schedule:
       interval: "daily"
+    # Add reviewers
+    reviewers:
+      - "ConnorMolz"
     target-branch: "develop"
