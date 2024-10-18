@@ -88,6 +88,9 @@ export const de = {
                     corporate: "Corporate",
                     aqua: "Aqua",
                 },
+                language: {
+                    title: "Choose Your Language",
+                },
             },
         }
     }
