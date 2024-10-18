@@ -4,7 +4,7 @@ const LanguageChooser = () => {
     const { i18n } = useTranslation();
     return (
         <div>
-            <Trans i18nKey="settings.appearence.language.title">Language Chooser</Trans>
+            <Trans i18nKey="settings.appearance.language.title"></Trans>
             <div>
                 <select
                     className="select select-bordered w-full max-w-xs"
