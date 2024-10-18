@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.tauri.app/config/2.0.0-rc",
+  "$schema": "https://schema.tauri.app/config/2.0.0",
   "productName": "Todo App",
   "version": "0.4.1",
   "identifier": "com.cmolz.todo.app",

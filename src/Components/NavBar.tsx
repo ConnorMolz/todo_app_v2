@@ -2,8 +2,12 @@ import {Link, useNavigate} from "react-router-dom";
 import {pocket_base} from "../lib/pocket_base.ts";
 //@ts-ignore IDK why the TS-lint is not recognizing the import
 import Jdenticon from 'react-jdenticon';
+import { useTranslation } from "react-i18next";
 
 const NavBar = () =>{
+    // Translation hook
+    const { t } = useTranslation();
+
     // navigate for the logout and Todo pages
     const navigate = useNavigate();
     const session = pocket_base.authStore.model;
@@ -34,14 +38,14 @@ const NavBar = () =>{
                     <ul
                         tabIndex={ 0 }
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li><Link to={ "/" }>Home</Link></li>
-                        <li><Link to={ "/create" }>Add Todo</Link></li>
-                        <li><Link to={ "/Home/all"}>All Todos</Link></li>
+                        <li><Link to={ "/" }>{t('navBar.home')}</Link></li>
+                        <li><Link to={ "/create" }>{t('navBar.addTodo')}</Link></li>
+                        <li><Link to={ "/Home/all"}>{t('navBar.allTodos')}</Link></li>
                     </ul>
                 </div>
             </div>
             <div className="navbar-center">
-                <Link to={ "/" } className="btn btn-ghost text-xl">Todo App</Link>
+                <Link to={ "/" } className="btn btn-ghost text-xl">{t('appTitle')}</Link>
             </div>
             <div className="navbar-end">
                 <div className="dropdown dropdown-end">
@@ -55,9 +59,9 @@ const NavBar = () =>{
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li><Link to={"/settings"}>Settings</Link></li>
+                        <li><Link to={"/settings"}>{t('navBar.settings')}</Link></li>
                         <li>
-                            <button onClick={logout}>Logout</button>
+                            <button onClick={logout}>{t('navBar.logout')}</button>
                         </li>
                     </ul>
                 </div>

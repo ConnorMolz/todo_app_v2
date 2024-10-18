@@ -4,8 +4,11 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel } from "pocketbase";
 import DOMPurify from "dompurify";
+import {useTranslation} from "react-i18next";
 
 const editTodo = () =>{
+    // Translation
+    const { t } = useTranslation();
 
     // Page variables
     const [ todoTitle, setTodoTitle ] = useState('');
@@ -74,7 +77,7 @@ const editTodo = () =>{
         }
 
         // Check if a table is already created and if not on table gets rendered
-        if(data.table != null){
+        if(data.table.length > 0){
             setTableData(data.table);
             setHasTable(true);
         }
@@ -335,7 +338,7 @@ const editTodo = () =>{
                     <input
                         required={true}
                         type="text"
-                        placeholder="Your Todo title"
+                        placeholder={t('todo.todoTitle')}
                         className="input input-bordered w-full max-w-xs"
                         value={todoTitle}
                         onChange={(e) => {
@@ -346,7 +349,7 @@ const editTodo = () =>{
                 <div className="flex justify-center py-5">
                     <textarea
                         rows={6}
-                        placeholder="Your Todo Content"
+                        placeholder={t('todo.todoDescription')}
                         className="input input-bordered w-full max-w-xs h-full max-h-xs"
                         value={todoDescription}
                         onChange={(e) => {
@@ -358,7 +361,6 @@ const editTodo = () =>{
                     <div className="flex justify-center py-5">
                         <input
                             type="date"
-                            placeholder="Enter the due date (optional)"
                             className="input input-bordered w-full max-w-xs"
                             // @ts-ignore Should be ignored because the value can be null
                             value={dueDate}
@@ -373,12 +375,12 @@ const editTodo = () =>{
                     !allWidgets &&
                     <div className="justify-center flex py-5">
                         <details className="dropdown">
-                            <summary className="btn btn-neutral m-1">Add Widgets</summary>
+                            <summary className="btn btn-neutral m-1">{t('todo.addWidget')}</summary>
                             <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                                {!hasDueDate && <li><button onClick={createDueDateFiled}>Add due Date</button></li>}
-                                {!hasTable && <li><button onClick={createTable}>Add List</button></li>}
-                                {!hasImage && <li><button onClick={createFileUpload}>Add Image</button></li>}
-                                {!hasMoreUsers && <li><button onClick={getUsers}>Add Users</button></li>}
+                                {!hasDueDate && <li><button onClick={createDueDateFiled}>{t('addDueDate')}</button></li>}
+                                {!hasTable && <li><button onClick={createTable}>{t('addList')}</button></li>}
+                                {!hasImage && <li><button onClick={createFileUpload}>{t('todo.addImage')}</button></li>}
+                                {!hasMoreUsers && <li><button onClick={getUsers}>{t('todo.addUsers')}</button></li>}
                             </ul>
                         </details>
                     </div>
@@ -389,9 +391,9 @@ const editTodo = () =>{
                         <table className="table table-zebra">
                             <thead>
                             <tr>
-                                <th>Todo Item</th>
-                                <th>Description</th>
-                                <th>Done</th>
+                                <th>{t('todo.itemName')}</th>
+                                <th>{t('todo.itemDescription')}</th>
+                                <th>{t('todo.itemDone')}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -418,7 +420,7 @@ const editTodo = () =>{
                                 <td>
                                     <input
                                         type="text"
-                                        placeholder="Add the title of your list item"
+                                        placeholder={t('todo.itemAddTitle')}
                                         className="input input-bordered w-full max-w-xs"
                                         value={itemTitle}
                                         onChange={(e) => setItemTitle(e.target.value)}
@@ -427,7 +429,7 @@ const editTodo = () =>{
                                 <td>
                                     <input
                                         type="text"
-                                        placeholder="Add the description of your list item"
+                                        placeholder={t('todo.itemAddDescription')}
                                         className="input input-bordered w-full max-w-xs"
                                         value={itemDescription}
                                         onChange={(e) => setItemDescription(e.target.value)}
@@ -446,7 +448,7 @@ const editTodo = () =>{
                         </table>
 
                         <div className="flex justify-center py-5">
-                            <button className="btn btn-neutral px-5 mx-2" onClick={addItem}>Add item</button>
+                            <button className="btn btn-neutral px-5 mx-2" onClick={addItem}>{t('todo.addItem')}</button>
                         </div>
 
                     </div>
@@ -475,8 +477,8 @@ const editTodo = () =>{
                             </div>
                             <div className="flex justify-center">
                                 <div className="flex justify-center">
-                                    <button className="btn btn-neutral px-5 mx-2" onClick={() => setPicture(null)}>Remove
-                                        Image
+                                    <button className="btn btn-neutral px-5 mx-2" onClick={() => setPicture(null)}>
+                                        {t('todo.removeImage')}
                                     </button>
                                 </div>
                             </div>
@@ -490,14 +492,14 @@ const editTodo = () =>{
                         <div className="flex justify-center py-5">
                             <input
                                 type="text"
-                                placeholder="Type something"
+                                placeholder={t('todo.enterUser')}
                                 className={`input ${inputColor} w-full max-w-xs input-bordered`}
                                 value={userInput}
                                 onChange={(e) => {
                                     setUserInput(e.target.value)
                                 }}
                             />
-                            <button onClick={(e:any) => addUser(e)} className="btn btn-neutral px-5 mx-2">Add User</button>
+                            <button onClick={(e:any) => addUser(e)} className="btn btn-neutral px-5 mx-2">{t('todo.addUser')}</button>
                         </div>
                         <div className="flex justify-center py-5">
                             {
@@ -516,10 +518,10 @@ const editTodo = () =>{
                     </div>
                 }
                 <div className="flex justify-center py-5">
-                    <button className="btn btn-neutral px-5 mx-2" onClick={updateTodo}>Update Todo</button>
-                    <Link className="btn btn-neutral px-5 mx-2" to={"/"}>Cancel</Link>
-                    {!done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoDone}>Set Done</button>}
-                    {done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoUndone}>Set Undone</button>}
+                    <button className="btn btn-neutral px-5 mx-2" onClick={updateTodo}>{t('todo.update')}</button>
+                    <Link className="btn btn-neutral px-5 mx-2" to={"/"}>{t('todo.cancel')}</Link>
+                    {!done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoDone}>{t('todo.setDone')}</button>}
+                    {done && <button className="btn btn-neutral px-5 mx-2" onClick={setTodoUndone}>{t('todo.setUndone')}</button>}
                 </div>
             </form>
             <div className="justify-center">

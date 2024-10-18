@@ -2,8 +2,11 @@ import LogInHeader from "../../Components/LogInHeader.tsx";
 import {useState} from "react";
 import {Form, useNavigate} from "react-router-dom";
 import {pocket_base} from "../../lib/pocket_base.ts";
+import {useTranslation} from "react-i18next";
 
 const ForgotPassword = () => {
+    // Translation
+    const { t } = useTranslation();
 
     // Page variables
     const [ email, setEmail ] = useState('');
@@ -33,7 +36,8 @@ const ForgotPassword = () => {
     return(
         <div>
             <LogInHeader />
-            <Form onSubmit={sendEmail} className="py-20">
+            <div className="flex justify-center text-3xl pt-10">{t('forgotPassword.title')}</div>
+            <Form onSubmit={sendEmail} className="pt-10">
                 <div className="flex justify-center py-5">
                     <label className="input input-bordered flex items-center gap-2">
                         <svg
@@ -49,7 +53,7 @@ const ForgotPassword = () => {
                         <input
                             type="email"
                             className="grow"
-                            placeholder="Email"
+                            placeholder={t('forgotPassword.email')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -57,7 +61,7 @@ const ForgotPassword = () => {
                 </div>
 
                 <div className="flex justify-center">
-                    <button className="btn btn-neutral">Request Password reset</button>
+                    <button className="btn btn-neutral">{t('forgotPassword.send')}</button>
                 </div>
 
             </Form>

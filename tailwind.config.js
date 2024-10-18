@@ -15,6 +15,7 @@ export default {
         "light",
         "dark",
         "corporate",
+        "aqua",
     ]
   }
 }
