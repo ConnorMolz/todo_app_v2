@@ -3,8 +3,11 @@ import {Form, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {pocket_base} from "../../lib/pocket_base.ts";
 import { generateRandomString } from "../../lib/generatIdenticonString.ts";
+import {useTranslation} from "react-i18next";
 
 const SignUp = () => {
+    // Translation
+    const { t } = useTranslation();
 
     // Page variables
     const [ username, setUsername ] = useState("");
@@ -75,6 +78,7 @@ const SignUp = () => {
     return (
         <div>
             <LogInHeader />
+            <div className="flex text-3xl justify-center py-5">{t('signUp.title')}</div>
             <Form onSubmit={createUser}>
                 <div className="flex justify-center py-5">
                     <label className="input input-bordered flex items-center gap-2">
@@ -91,7 +95,7 @@ const SignUp = () => {
                         <input
                             type="email"
                             className="grow"
-                            placeholder="Email"
+                            placeholder={t('signUp.email')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -110,7 +114,7 @@ const SignUp = () => {
                         <input
                             type="text"
                             className="grow"
-                            placeholder="Username"
+                            placeholder={t('signUp.username')}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
@@ -131,7 +135,7 @@ const SignUp = () => {
                         <input
                             type="password"
                             className="grow"
-                            placeholder="Password"
+                            placeholder={t('signUp.password')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
@@ -152,14 +156,14 @@ const SignUp = () => {
                         <input
                             type="password"
                             className="grow"
-                            placeholder="Repeat Password"
+                            placeholder={t('signUp.repeatPassword')}
                             value={repeatPassword}
                             onChange={(e) => setRepeatPassword(e.target.value)}
                         />
                     </label>
                 </div>
                 <div className="flex justify-center">
-                    <button className="btn btn-neutral">Create Account</button>
+                    <button className="btn btn-neutral">{t('signUp.create')}</button>
                 </div>
             </Form>
             {

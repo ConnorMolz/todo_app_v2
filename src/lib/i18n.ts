@@ -27,6 +27,19 @@ i18n
                         signUp: "Sign Up",
                         forgotPassword: "Forgot Password",
                     },
+                    signUp:{
+                        title: "Sign Up",
+                        email: "Email",
+                        username: "Username",
+                        password: "Password",
+                        repeatPassword: "Repeat Password",
+                        create: "Create Account",
+                    },
+                    forgotPassword:{
+                        title: "Forgot Password",
+                        email: "Email",
+                        send: "Request Password reset"
+                    },
                     navBar: {
                         home: "Home",
                         addTodo: "Add Todo",
