@@ -325,19 +325,22 @@ const CreateTodo = () =>{
                     </div>
 
                 }
-                { hasImage &&
-                    <div className="flex justify-center py-5">
-                        <input
-                            type="file"
-                            className="file-input file-input-bordered w-full max-w-xs"
-                            accept="image/*"
-                            onChange={(e) => {
-                                if (e.target.files) {
-                                    setPicture(e.target.files[0]);
+                {hasImage &&
+                <div className="flex justify-center py-5">
+                    <input
+                        type="file"
+                        className="file-input file-input-bordered w-full max-w-xs"
+                        accept="image/*"
+                        onChange={(e) => {
+                            if (e.target.files) {
+                                const file = e.target.files[0];
+                                if (file && file.type.startsWith('image/') && file.size <= 5 * 1024 * 1024) { // 5MB limit
+                                    setPicture(file);
                                 }
-                            }}
-                        />
-                    </div>
+                            }
+                        }}
+                    />
+                </div>
                 }
                 {
                     picture && (
