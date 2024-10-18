@@ -1,8 +1,10 @@
 // Small Header for the login page
 // The Header has no functions it's only for the optic
 import {Link} from "react-router-dom";
+import {Trans, useTranslation} from "react-i18next";
 
 const LogInHeader = () => {
+    const { t } = useTranslation();
     return(
         <div>
             <div className="navbar bg-base-200">
@@ -25,14 +27,14 @@ const LogInHeader = () => {
                         <ul
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                            <li><Link to={"/"}>Log In</Link></li>
-                            <li><Link to={"/signUp"}>Sign Up</Link></li>
-                            <li><Link to={"/user/forgotPassword"}>Forgot Password</Link></li>
+                            <li><Link to={"/"}>{t('loginPage.login')}</Link></li>
+                            <li><Link to={"/signUp"}>{t('loginPage.signUp')}</Link></li>
+                            <li><Link to={"/user/forgotPassword"}>{t('loginPage.forgotPassword')}</Link></li>
                         </ul>
                     </div>
                 </div>
                 <div className="navbar-center">
-                    <a className="btn btn-ghost text-xl">Todo App</a>
+                    <a className="btn btn-ghost text-xl"><Trans i18nKey="appTitle">Todo App</Trans> </a>
                 </div>
                 <div className="navbar-end"></div>
             </div>
