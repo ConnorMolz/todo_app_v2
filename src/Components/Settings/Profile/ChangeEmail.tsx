@@ -2,8 +2,11 @@ import {Form, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {AuthModel} from "pocketbase";
 import {pocket_base} from "../../../lib/pocket_base.ts";
+import {useTranslation} from "react-i18next";
 
 const ChangeEmail = () => {
+    // Translation
+    const { t } = useTranslation();
 
     // Page variables
     const [ session, setSession ] = useState<AuthModel | null>(null);
@@ -54,13 +57,13 @@ const ChangeEmail = () => {
         <div>
 
             <Form onSubmit={changeMail}>
-                <div className="flex text-3xl">Change your E-Mail address</div>
+                <div className="flex text-3xl">{t('settings.account.changeEmail.title')}</div>
                 <div className="flex  py-5">
                     <input
                         disabled={currentEmail !== null}
                         required={true}
                         type="email"
-                        placeholder="Enter your current email"
+                        placeholder={t('settings.account.changeEmail.currentEmail')}
                         className="input input-bordered w-full max-w-xs"
                         value={currentEmail}
                         onChange={(e) => {
@@ -72,7 +75,7 @@ const ChangeEmail = () => {
                     <input
                         required={true}
                         type="email"
-                        placeholder="Enter your new email"
+                        placeholder={t('settings.account.changeEmail.newEmail')}
                         className="input input-bordered w-full max-w-xs"
                         value={newEmail}
                         onChange={(e) => {
@@ -81,7 +84,7 @@ const ChangeEmail = () => {
                     />
                 </div>
                 <div className="flex ">
-                    <button className="btn btn-neutral px-5 mx-2">Request E-Mail change</button>
+                    <button className="btn btn-neutral px-5 mx-2">{t('settings.account.changeEmail.change')}</button>
                 </div>
             </Form>
             {
