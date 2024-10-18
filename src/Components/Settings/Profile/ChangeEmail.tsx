@@ -57,14 +57,14 @@ const ChangeEmail = () => {
         <div>
 
             <Form onSubmit={changeMail}>
-                <div className="flex text-3xl">{t('settings.account.changeEmail.title')}</div>
+                <div className="flex">{t('settings.account.changeEmail.title')}</div>
                 <div className="flex  py-5">
                     <input
                         disabled={currentEmail !== null}
                         required={true}
                         type="email"
                         placeholder={t('settings.account.changeEmail.currentEmail')}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={currentEmail}
                         onChange={(e) => {
                             setCurrentEmail(e.target.value)
@@ -76,7 +76,7 @@ const ChangeEmail = () => {
                         required={true}
                         type="email"
                         placeholder={t('settings.account.changeEmail.newEmail')}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={newEmail}
                         onChange={(e) => {
                             setNewEmail(e.target.value)

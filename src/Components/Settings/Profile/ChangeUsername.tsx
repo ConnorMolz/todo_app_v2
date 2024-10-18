@@ -57,14 +57,14 @@ const ChangeUsername = () => {
         <div>
 
             <Form onSubmit={changeName}>
-                <div className="flex text-3xl">{t('settings.account.changeUsername.title')}</div>
+                <div className="flex ">{t('settings.account.changeUsername.title')}</div>
                 <div className="flex  py-5">
                     <input
                         disabled={true}
                         required={true}
                         type="text"
                         placeholder={t('settings.account.changeUsername.currentUsername')}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={currentName}
                         onChange={(e) => {
                             setCurrentName(e.target.value)
@@ -76,7 +76,7 @@ const ChangeUsername = () => {
                         required={true}
                         type="text"
                         placeholder={t('settings.account.changeUsername.newUsername')}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={newName}
                         onChange={(e) => {
                             setNewName(e.target.value)

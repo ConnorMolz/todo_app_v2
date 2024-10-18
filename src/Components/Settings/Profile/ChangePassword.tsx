@@ -62,13 +62,13 @@ const ChangePassword = () => {
     return (
         <div>
             <Form onSubmit={changePassword}>
-                <div className=" flex text-3xl">{t('settings.account.changePassword.title')}</div>
+                <div className=" flex">{t('settings.account.changePassword.title')}</div>
                 <div className="flex  py-5">
                     <input
                         required={true}
                         type="password"
                         placeholder={t('settings.account.changePassword.currentPassword')}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={oldPassword}
                         onChange={(e) => {
                             setOldPassword(e.target.value)
@@ -80,7 +80,7 @@ const ChangePassword = () => {
                         required={true}
                         type="password"
                         placeholder={t('settings.account.changePassword.newPassword')}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={newPassword}
                         onChange={(e) => {
                             setNewPassword(e.target.value)
@@ -92,7 +92,7 @@ const ChangePassword = () => {
                         required={true}
                         type="password"
                         placeholder={t('settings.account.changePassword.confirmPassword')}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={confirmNewPassword}
                         onChange={(e) => {
                             setConfirmNewPassword(e.target.value)
