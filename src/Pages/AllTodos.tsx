@@ -3,11 +3,12 @@ import NavBar from "../Components/NavBar.tsx";
 import { Link, useNavigate } from 'react-router-dom';
 import { pocket_base } from "../lib/pocket_base.ts";
 import { AuthModel, RecordModel } from "pocketbase";
-import {Trans} from "react-i18next";
+import {Trans, useTranslation} from "react-i18next";
 
 
 const AllTodos = () =>{
-
+    // Translation
+    const { t } = useTranslation();
 
     // Page Variables
     const [ session, setSession ] = useState<AuthModel | null>(null);
@@ -105,8 +106,8 @@ const AllTodos = () =>{
                                 <div className=''>
                                     <div>
                                         <p className='text-xl'>{todo.todo_title}</p>
-                                        <p className=''>Last Update: {new Date(todo.updated).toLocaleString()}</p>
-                                        <p className=''>{todo.dueDate && "Due: " + new Date(todo.dueDate).toDateString()}</p>
+                                        <p className=''><Trans i18nKey="home.lastUpdate"></Trans> {new Date(todo.updated).toLocaleString()}</p>
+                                        <p className=''>{todo.dueDate && t('home.dueDate') + new Date(todo.dueDate).toDateString()}</p>
                                     </div>
                                 </div>
                             </Link>

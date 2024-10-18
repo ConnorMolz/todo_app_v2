@@ -54,6 +54,8 @@ export const en = {
         home: {
             ownTodos: "Show Only My Todos",
             allTodos: "Show All Todos",
+            lastUpdate: "Last Update: ",
+            dueDate: "Due Date: ",
         },
         settings:{
             account: {
