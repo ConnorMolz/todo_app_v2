@@ -2,8 +2,11 @@ import {useEffect, useState} from "react";
 import {AuthModel} from "pocketbase";
 import {Form, useNavigate} from "react-router-dom";
 import {pocket_base} from "../../../lib/pocket_base.ts";
+import {useTranslation} from "react-i18next";
 
 const ChangePassword = () => {
+    // Translation
+    const { t } = useTranslation();
 
     // Page variables
     const [ session, setSession ] = useState<AuthModel | null>(null);
@@ -59,13 +62,13 @@ const ChangePassword = () => {
     return (
         <div>
             <Form onSubmit={changePassword}>
-                <div className=" flex text-3xl">Change your password</div>
+                <div className=" flex">{t('settings.account.changePassword.title')}</div>
                 <div className="flex  py-5">
                     <input
                         required={true}
                         type="password"
-                        placeholder="Enter your old password"
-                        className="input input-bordered w-full max-w-xs"
+                        placeholder={t('settings.account.changePassword.currentPassword')}
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={oldPassword}
                         onChange={(e) => {
                             setOldPassword(e.target.value)
@@ -76,8 +79,8 @@ const ChangePassword = () => {
                     <input
                         required={true}
                         type="password"
-                        placeholder="Enter your new password"
-                        className="input input-bordered w-full max-w-xs"
+                        placeholder={t('settings.account.changePassword.newPassword')}
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={newPassword}
                         onChange={(e) => {
                             setNewPassword(e.target.value)
@@ -88,8 +91,8 @@ const ChangePassword = () => {
                     <input
                         required={true}
                         type="password"
-                        placeholder="Confirm your new password"
-                        className="input input-bordered w-full max-w-xs"
+                        placeholder={t('settings.account.changePassword.confirmPassword')}
+                        className="input input-bordered input-sm w-full max-w-xs"
                         value={confirmNewPassword}
                         onChange={(e) => {
                             setConfirmNewPassword(e.target.value)
@@ -97,7 +100,7 @@ const ChangePassword = () => {
                     />
                 </div>
                 <div className="flex ">
-                    <button className="btn btn-neutral px-5 mx-2">Change Password</button>
+                    <button className="btn btn-neutral px-5 mx-2">{t('settings.account.changePassword.change')}</button>
                 </div>
             </Form>
             {
