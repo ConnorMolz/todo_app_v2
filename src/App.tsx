@@ -173,7 +173,7 @@ export default function App() {
                     {
                         providers.map((provider:any) => {
                             return (
-                                <div key={provider.id} className="flex justify-center">
+                                <div key={provider.id} className="flex justify-center py-2">
                                     <button
                                         className="btn btn-neutral"
                                         onClick={(e) => logInWithOAuth(e, provider.name)}
