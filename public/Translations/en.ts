@@ -7,6 +7,7 @@ export const en = {
             login: "Login",
             signUp: "Sign Up",
             forgotPassword: "Forgot Password",
+            logInWith: "Log in with ",
         },
         todo:{
             todoTitle: "Your Todo Title",
