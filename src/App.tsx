@@ -169,16 +169,16 @@ export default function App() {
                         <button className="btn btn-neutral"><Trans i18nKey="loginPage.login">Log In</Trans></button>
                     </div>
                 </Form>
-                <div>
+                <div className="py-10">
                     {
                         providers.map((provider:any) => {
                             return (
-                                <div key={provider.id}>
+                                <div key={provider.id} className="flex justify-center">
                                     <button
                                         className="btn btn-neutral"
                                         onClick={(e) => logInWithOAuth(e, provider.name)}
                                     >
-                                        {provider.displayName}
+                                        <Trans i18nKey="loginPage.logInWith"></Trans> {provider.displayName}
                                     </button>
                                 </div>
                             )
