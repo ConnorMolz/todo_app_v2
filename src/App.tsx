@@ -18,6 +18,7 @@ export default function App() {
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const navigator = useNavigate();
+    const [ providers, setProviders ] = useState<any>([]);
 
     // Alert
     const [ authError, setAuthError ] = useState(false);
@@ -56,6 +57,11 @@ export default function App() {
 
     }
 
+    const getOAuthList = async () => {
+        const result = await pocket_base.collection('users').listAuthMethods();
+        setProviders(result.authProviders);
+    }
+
     useEffect(() => {
         themeChange(false)
     }, [])
@@ -64,9 +70,39 @@ export default function App() {
     useEffect(() => {
         setLoading(true);
         setSession(pocket_base.authStore.isValid);
+        getOAuthList().then();
         setLoading(false);
 
     }, []);
+
+    const logInWithOAuth = async (e:any, providerName:string) => {
+        e.preventDefault();
+
+        const oAuthSession = await pocket_base.collection('users').authWithOAuth2({
+            provider:providerName,
+            urlCallback: (url) => {
+                window.open(url, "_blank")
+            }
+        }).catch( async (err:any) =>{
+
+            // If the auth failed send a message to the user
+            if(!pocket_base.authStore.isValid){
+
+                // Show the Alert under the form and set the message in the alert
+                setAuthErrorMessage(err.message);
+                setAuthError(true);
+
+                // Deactivate the Alert after 5 seconds and clean up the error message
+                setTimeout(() => setAuthError(false), 5000);
+                setTimeout(() => setAuthErrorMessage(''), 5000);
+
+                return setLoading(false)
+            }});
+        console.log(oAuthSession);
+        console.log(pocket_base.authStore);
+        setSession(true);
+
+    }
 
     // Show skeleton at rendering
     if(loading){
@@ -133,6 +169,22 @@ export default function App() {
                         <button className="btn btn-neutral"><Trans i18nKey="loginPage.login">Log In</Trans></button>
                     </div>
                 </Form>
+                <div>
+                    {
+                        providers.map((provider:any) => {
+                            return (
+                                <div key={provider.id}>
+                                    <button
+                                        className="btn btn-neutral"
+                                        onClick={(e) => logInWithOAuth(e, provider.name)}
+                                    >
+                                        {provider.displayName}
+                                    </button>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
                 { authError &&
                     <div role="alert" className="alert alert-warning" id="AuthError" >
                         <svg
