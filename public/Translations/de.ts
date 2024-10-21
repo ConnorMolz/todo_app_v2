@@ -80,6 +80,11 @@ export const de = {
                     newUsername: "Geben Sie Ihren neuen Benutzernamen ein",
                     change: "Benutzernamen ändern",
                 },
+                unlinkOAuth: {
+                    title: "Entferne OAuth Provider",
+                    providerName: "Provider Name",
+                    unlink: "Entfernen",
+                },
             },
             appearance: {
                 title: "Erscheinungseinstellungen",
