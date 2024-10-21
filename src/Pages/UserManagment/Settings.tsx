@@ -5,6 +5,7 @@ import ChangeUsername from "../../Components/Settings/Profile/ChangeUsername.tsx
 import ThemeChooser from "../../Components/Settings/Appearence/ThemeChooser.tsx";
 import {Trans} from "react-i18next";
 import LanguageChooser from "../../Components/Settings/Appearence/LanguageChooser.tsx";
+import UnLinkOAuth from "../../Components/Settings/Profile/UnLinkOAuth.tsx";
 
 const Settings = () =>{
     return(
@@ -19,6 +20,8 @@ const Settings = () =>{
                         <ChangeEmail/>
                         <div className="divider"></div>
                         <ChangeUsername/>
+                        <div className="divider"></div>
+                        <UnLinkOAuth />
                     </div>
                 </div>
             </details>
