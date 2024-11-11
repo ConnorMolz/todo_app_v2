@@ -12,6 +12,7 @@
   "dependencies": {
     "@tauri-apps/api": ">=2.1.0",
     "@tauri-apps/plugin-shell": ">=2.0.1",
+    "@tauri-apps/plugin-sql": "^2.0.0",
     "dompurify": "^3.1.7",
     "i18next": "^23.16.5",
     "i18next-browser-languagedetector": "^8.0.0",
