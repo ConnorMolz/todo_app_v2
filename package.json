@@ -16,7 +16,7 @@
     "dompurify": "^3.2.3",
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^8.0.2",
-    "pocketbase": "^0.21.5",
+    "pocketbase": "^0.25.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^15.4.0",
